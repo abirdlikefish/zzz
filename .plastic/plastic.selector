@@ -1,0 +1,4 @@
+repository "zzz@abirdlikefish@cloud.cn"
+  path "/"
+    br "/main"
+    co "/main"
