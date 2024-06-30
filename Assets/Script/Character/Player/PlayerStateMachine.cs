@@ -5,45 +5,68 @@ using UnityEngine;
 public class PlayerStateMachine
 {
     
-    public IPlayerState PlayerStateNow { get; set; }
+    public PlayerState playerStateNow { get; set; }
     public Player player { get; set; }
     
+#region define playerState
     public PlayerState playerState_idle;
     public PlayerState playerState_run ;
     public PlayerState playerState_walk ;
     public PlayerState playerState_attack ;
-
+    public PlayerState playerState_skill_E;
+    public PlayerState playerState_skill_Q;
+    public PlayerState playerState_defend;
+    public PlayerState playerState_dash;
+    public PlayerState playerState_beAttacked ;
+    public PlayerState playerState_backEnd ;
+#endregion
     public virtual void Init(Player player)
     {
         this.player = player;
         InitPlayerState(player);
 
-        PlayerStateNow = playerState_idle;
-        PlayerStateNow.EnterState();
+        playerStateNow = playerState_idle;
+        playerStateNow.EnterState();
     }
 
     public virtual void InitPlayerState(Player player)
     {
 
     }
-    public virtual void ChangeState(IPlayerState state)
+    public virtual void ChangeState(PlayerState state)
     {
-        PlayerStateNow.ExitState();
-        PlayerStateNow = state;
-        PlayerStateNow.EnterState();
+        playerStateNow.ExitState();
+        playerStateNow = state;
+        playerStateNow.EnterState();
     }
 
     public virtual void Update()
     {
-        PlayerStateNow.Update();
+        playerStateNow.Update();
     }
 
     public virtual void BackToIdle()
     {
-        if(PlayerStateNow.ePlayerState != Enums.EPlayerState.idle)
-        {
-            ChangeState(playerState_idle);
-        }
+        ChangeState(playerState_idle);
     }
+    public virtual void AddCombo()
+    {
+        
+    }
+    public virtual void AddNeedCombo()
+    {
 
+    }
+    public virtual bool IsComboContinue()
+    {
+        return false;
+    }
+    public virtual void Prepared(Enums.EPlayerState playerState)
+    {
+
+    }
+    public virtual void BeAttacked(Structs.AttackAttribute attackAttribute, Creature attacker)
+    {
+        
+    }
 }

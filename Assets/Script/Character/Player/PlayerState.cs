@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerState : IPlayerState
+// public class PlayerState : IPlayerState
+public class PlayerState
 {
     public PlayerStateMachine playerStateMachine;
     public Enums.EPlayerState ePlayerState{ get; set; }

@@ -23,18 +23,12 @@ public class DollState_run : PlayerState
     public override void Update()
     {
         base.Update();
-        if(playerStateMachine.player.IsAttack())
+        IPlayerCommand playerCommand = InputBuffer.Instance.GetCommand(Priority.playerState[(int)Enums.EPlayerState.Run]);
+        if(playerCommand != null)
         {
-            playerStateMachine.ChangeState(playerStateMachine.playerState_attack);
+            playerCommand.Execute(playerStateMachine.player);
         }
-        else if(playerStateMachine.player.IsRun())
-        {
-            playerStateMachine.player.MoveForward_run();
-        }
-        else
-        {
-            playerStateMachine.ChangeState(playerStateMachine.playerState_idle);
-        }
+        playerStateMachine.player.ChangeDirection_run();
     }
 
 }
