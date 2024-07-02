@@ -7,18 +7,10 @@ public class DollState_skill_E : PlayerState
     public DollState_skill_E(PlayerStateMachine playerStateMachine, Enums.EPlayerState ePlayerState) : base(playerStateMachine, ePlayerState)
     {
     }
-    bool isCommandCancelled ;
-    bool isPrepared ;
-    int _comboNum;
-    int _needComboNum;
     public override void EnterState()
     {
         base.EnterState();
         playerStateMachine.player.AnimationBeg_skill_E();
-        isPrepared = false;
-        isCommandCancelled = false;
-        _comboNum = 0;
-        _needComboNum = 1;
     }
     public override void ExitState()
     {
@@ -27,44 +19,35 @@ public class DollState_skill_E : PlayerState
     }
     public override void Update()
     {
-        base.Update();
+        if(playerStateMachine.player.attribute.isBackEnd)
+        {
+            return ;
+        }
+
+        
+        Vector3 midDirection = InputBuffer.Instance.GetDirection();
+        if(midDirection == Vector3.zero || midDirection.z > 0.9f)
+        {
+            playerStateMachine.player.LockEnemy();
+            playerStateMachine.player.FixForwardDirection_lock(ePlayerState);
+        }
+        else
+        {
+            playerStateMachine.player.FixForwardDirection(midDirection , ePlayerState);
+        }
+
         IPlayerCommand playerCommand = InputBuffer.Instance.GetCommand(Priority.playerState[(int)Enums.EPlayerState.Skill_E]);
         if(playerCommand != null)
         {
             playerCommand.Execute(playerStateMachine.player);
         }
 
-        if(_comboNum == 0)
-        {
-            if(InputBuffer.Instance.IsCommandCancelled(Enums.EPlayerCommand.Skill_E))
-            {
-                isCommandCancelled = true ;
-            }
-            if(isCommandCancelled && isPrepared)
-            {
-                playerStateMachine.ChangeState(playerStateMachine.playerState_idle);
-            }
-        }
-        if(isPrepared && InputBuffer.Instance.IsAttackCombo())
-        {
-            playerStateMachine.player.AnimationBeg_skill_E();
-        }
     }
-    public void Prepared()
+    public Structs.AttackAttribute GetAttackAttribute()
     {
-        isPrepared = true;
-    }
-
-    public void AddCombo()
-    {
-        _comboNum ++;
-    }
-    public void AddNeedComboNum()
-    {
-        _needComboNum ++;
-    }
-    public bool IsContinue()
-    {
-        return _comboNum == _needComboNum ;
+        Structs.AttackAttribute attackAttribute = new Structs.AttackAttribute();
+        attackAttribute.damage_hp = (playerStateMachine.player.attribute as Structs.DollAttribute).damage_hp_skill_E;
+        attackAttribute.damage_poise = (playerStateMachine.player.attribute as Structs.DollAttribute).damage_poise_skill_E;
+        return attackAttribute;
     }
 }

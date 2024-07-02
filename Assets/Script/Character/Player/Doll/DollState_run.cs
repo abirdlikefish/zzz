@@ -12,10 +12,12 @@ public class DollState_run : PlayerState
     {
         base.EnterState();
         playerStateMachine.player.AnimationBeg_run();
+        playerStateMachine.player.Animation_setRunSpeed();
     }
 
     public override void ExitState()
     {
+        // Debug.Log("exit state run");
         base.ExitState();
         playerStateMachine.player.AnimationEnd_run();
     }
@@ -28,7 +30,18 @@ public class DollState_run : PlayerState
         {
             playerCommand.Execute(playerStateMachine.player);
         }
-        playerStateMachine.player.ChangeDirection_run();
+        
+
+        Vector3 midDirection = InputBuffer.Instance.GetDirection();
+        if(midDirection == Vector3.zero)
+        {
+            playerStateMachine.BackToIdle();
+        }
+        else
+        {
+            playerStateMachine.player.FixForwardDirection(midDirection , ePlayerState);
+            // playerStateMachine.player.Run(midDirection);
+        }
     }
 
 }

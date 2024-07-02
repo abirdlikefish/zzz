@@ -13,8 +13,10 @@ public static class Priority
         playerState[(int)Enums.EPlayerState.Skill_E] = 3;
         playerState[(int)Enums.EPlayerState.Skill_Q] = 4;
         playerState[(int)Enums.EPlayerState.Dash] = 5;
-        playerState[(int)Enums.EPlayerState.Defend] = 5;
+        playerState[(int)Enums.EPlayerState.Parry] = 5;
+        // playerState[(int)Enums.EPlayerState.Defend] = 5;
         playerState[(int)Enums.EPlayerState.BeAttacked] = 5;
+        playerState[(int)Enums.EPlayerState.Support] = 6;
         playerState[(int)Enums.EPlayerState.BackEnd] = 9;
 
         playerCommand = new int[30];
@@ -22,8 +24,9 @@ public static class Priority
         playerCommand[(int)Enums.EPlayerCommand.Attack] = 2;
         playerCommand[(int)Enums.EPlayerCommand.Skill_E] = 3;
         playerCommand[(int)Enums.EPlayerCommand.Skill_Q] = 4;
-        playerCommand[(int)Enums.EPlayerCommand.Defend] = 5;
+        // playerCommand[(int)Enums.EPlayerCommand.Defend] = 5;
         playerCommand[(int)Enums.EPlayerCommand.Dash] = 5;
+        playerCommand[(int)Enums.EPlayerCommand.Support] = 6;
         playerCommand[(int)Enums.EPlayerCommand.ChangeCharacter] = 10;
 
 

@@ -42,15 +42,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Defend",
-                    "type": "Button",
-                    "id": "73fa0c78-c787-4040-a5b9-b4846d832d70",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Dash",
                     "type": "Button",
                     "id": "d031b5a8-c654-433b-b4bf-7306daaff6cc",
@@ -72,6 +63,15 @@
                     "name": "Stop",
                     "type": "Button",
                     "id": "6d097675-6d17-41e8-ad9d-8edff7525160",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Support",
+                    "type": "Button",
+                    "id": "5dc01791-122d-4e58-a8c0-8e0b0030e728",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -169,17 +169,6 @@
                 },
                 {
                     "name": "",
-                    "id": "c9013763-2a8d-41e2-a7f4-ad21123982b7",
-                    "path": "<Mouse>/rightButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Defend",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "6a5ec0d9-4163-412d-9e5f-074477ae53e2",
                     "path": "<Keyboard>/leftShift",
                     "interactions": "",
@@ -192,7 +181,7 @@
                 {
                     "name": "",
                     "id": "43be050f-c32d-4915-846b-fdeb7b1c48e7",
-                    "path": "<Keyboard>/space",
+                    "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -208,6 +197,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Stop",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3d98f9fe-e9d0-4932-8b8d-3801ef99e5a9",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Support",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

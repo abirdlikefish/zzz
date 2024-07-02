@@ -10,6 +10,7 @@ public class DollState_defend : PlayerState
     public DollState_defend(PlayerStateMachine playerStateMachine, Enums.EPlayerState ePlayerState) : base(playerStateMachine, ePlayerState)
     {
     }
+    /*
     public override void EnterState()
     {
         base.EnterState();
@@ -56,4 +57,5 @@ public class DollState_defend : PlayerState
     {
         playerStateMachine.player.AnimationBeg_parrySuccess();
     }
+    */
 }

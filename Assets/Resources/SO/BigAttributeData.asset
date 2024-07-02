@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70445763b9121034a81c6a57a07b49e3, type: 3}
+  m_Name: BigAttributeData
+  m_EditorClassIdentifier: 
+  isBackEnd: 0
+  ID: 1
+  hp: 100
+  hp_max: 100
+  poise: 100
+  poise_max: 100
+  speed: 1.5
+  lockDistance: 10
+  angle_lock: 180
+  time_rotate_run: 0.2
+  time_rotate_attack: 0.5
+  time_rotate_skill_E: 0.5
+  time_rotate_skill_Q: 1
+  time_rotate_dash: 1
+  time_parry: 1
+  parryDistance: 5
+  velocity_parry: {x: 0, y: 0, z: -40}
+  time_dash: 0.6
+  velocity_dash: {x: 0, y: 0, z: 10}
+  isInvisible: 1
+  isInvisible_dash: -1
+  invisibleTime_dash: 0.2
+  freezeFrameSpeed: 0.1
+  freezeFrameTime: 0.4
+  freezeTimeTime: 0.2
+  prepareTime_dash: 0
+  damage_hp_attack:
+  - 1
+  - 1
+  - 1
+  damage_poise_attack:
+  - 1
+  - 1
+  - 1
+  time_skill_Q: 4
+  velocity_skill_Q: {x: 0, y: 0, z: 2}
+  time_dashAttack_1: 0.6
+  velocity_dashAttack1: {x: 0, y: 0, z: 10}
+  damage_hp_skill_E: 1
+  damage_poise_skill_E: 3
+  damage_hp_skill_Q: 1
+  damage_poise_skill_Q: 3
+  damage_hp_dash:
+  - 0
+  - 0
+  damage_poise_dash:
+  - 0
+  - 0

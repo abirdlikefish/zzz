@@ -11,20 +11,16 @@ public class DollState_backEnd : PlayerState
     public override void EnterState()
     {
         base.EnterState();
+        playerStateMachine.player.gameObject.SetActive(false);
     }
 
     public override void ExitState()
     {
+        playerStateMachine.player.gameObject.SetActive(true);
         base.ExitState();
     }
 
     public override void Update()
     {
-        base.Update();
-        IPlayerCommand playerCommand = InputBuffer.Instance.GetCommand(Priority.playerState[(int)Enums.EPlayerState.BeAttacked]);
-        if(playerCommand != null)
-        {
-            playerCommand.Execute(playerStateMachine.player);
-        }
     }
 }

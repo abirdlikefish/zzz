@@ -5,9 +5,9 @@ using UnityEngine;
 public class DollStateMachine : PlayerStateMachine
 {
     // Doll doll ;
-    public override void Init(Player player)
+    public override void Init(Player player , Enums.EPlayerState eState)
     {
-        base.Init(player);
+        base.Init(player , eState);
         // doll = player as Doll;
     }
 
@@ -19,56 +19,12 @@ public class DollStateMachine : PlayerStateMachine
         playerState_attack = new DollState_attack(this , Enums.EPlayerState.Attack);
         playerState_skill_E = new DollState_skill_E(this , Enums.EPlayerState.Skill_E);
         playerState_skill_Q = new DollState_skill_Q(this , Enums.EPlayerState.Skill_Q);
+        playerState_parry = new DollState_parry(this , Enums.EPlayerState.Parry);
         playerState_dash = new DollState_dash(this , Enums.EPlayerState.Dash) ;
-        playerState_defend = new DollState_defend(this,Enums.EPlayerState.Defend) ;
+        // playerState_defend = new DollState_defend(this,Enums.EPlayerState.Defend) ;
         playerState_beAttacked = new DollState_beAttacked(this,Enums.EPlayerState.BeAttacked) ;
         playerState_backEnd = new DollState_backEnd(this,Enums.EPlayerState.BackEnd) ;
     }
-
-#region combo
-    public override void AddCombo()
-    {
-        base.AddCombo();
-        if(playerStateNow.ePlayerState == Enums.EPlayerState.Attack)
-        {
-            (playerStateNow as DollState_attack).AddCombo();
-        }
-        else if(playerStateNow.ePlayerState == Enums.EPlayerState.Skill_E)
-        {
-            (playerStateNow as DollState_skill_E).AddCombo();
-        }
-    }
-    public override void AddNeedCombo()
-    {
-        base.AddNeedCombo();
-        if(playerStateNow.ePlayerState == Enums.EPlayerState.Attack)
-        {
-            (playerStateNow as DollState_attack).AddNeedComboNum();
-        }
-        else if(playerStateNow.ePlayerState == Enums.EPlayerState.Skill_E)
-        {
-            (playerStateNow as DollState_skill_E).AddNeedComboNum();
-        }
-
-    }
-    public override bool IsComboContinue()
-    {
-        base.IsComboContinue();
-        if(playerStateNow.ePlayerState == Enums.EPlayerState.Attack)
-        {
-            return (playerStateNow as DollState_attack).IsContinue();
-        }
-        if(playerStateNow.ePlayerState == Enums.EPlayerState.Skill_E)
-        {
-            return (playerStateNow as DollState_skill_E).IsContinue();
-        }
-
-        Debug.Log("error: wrong player state");
-        return false;
-    }
-#endregion
-
-
     public override void Prepared(Enums.EPlayerState playerState)
     {
         base.Prepared(playerState);
@@ -76,42 +32,89 @@ public class DollStateMachine : PlayerStateMachine
         {
             Debug.Log("error : player state is not the same");
         }
-        if(playerState == Enums.EPlayerState.Defend)
-        {
-            (playerStateNow as DollState_defend).Prepared();
-        }
-        else if(playerState == Enums.EPlayerState.Skill_E)
-        {
-            (playerStateNow as DollState_skill_E).Prepared();
-        }
         else if(playerState == Enums.EPlayerState.Dash)
         {
             (playerStateNow as DollState_dash).Prepared();
         }
-
+        else
+        {
+            Debug.Log("error state");
+        }
+    }
+    public override void Finished(Enums.EPlayerState playerState)
+    {
+        if(playerStateNow.ePlayerState != playerState)
+        {
+            Debug.Log("error : player state is not the same");
+        }
+        else if(playerState == Enums.EPlayerState.Attack)
+        {
+            (playerStateNow as DollState_attack).Finished();
+        }
+        else
+        {
+            Debug.Log("error state");
+        }
     }
 
     public override void BeAttacked(Structs.AttackAttribute attackAttribute, Creature attacker)
     {
         base.BeAttacked(attackAttribute, attacker);
-        if(playerStateNow.ePlayerState == Enums.EPlayerState.Defend)
-        {
-            if(player.IsInvisible_parry())
-            {
-                (playerStateNow as DollState_defend).Success_parry();
-            }
-            else
-            {
-                (playerStateNow as DollState_defend).Success_defend();
-            }
-        }
-        else if(playerStateNow.ePlayerState == Enums.EPlayerState.Dash)
+
+        if(playerStateNow.ePlayerState == Enums.EPlayerState.Dash)
         {
 
+        }
+        else if(playerStateNow.ePlayerState == Enums.EPlayerState.Parry)
+        {
+            (playerStateNow as DollState_parry).BeAttacked();
         }
         else
         {
             Debug.Log("Error playerState in BeAttacked function");
+        }
+    }
+    public override void AddCombo(Enums.EPlayerState playerState)
+    {
+        if(playerStateNow.ePlayerState != playerState)
+        {
+            Debug.Log("error : player state is not the same");
+        }
+        else if(playerState == Enums.EPlayerState.Dash)
+        {
+            (playerStateNow as DollState_dash).AddCombo();
+        }
+        else if(playerState == Enums.EPlayerState.Attack)
+        {
+            (playerStateNow as DollState_attack).AddCombo();
+        }
+        else
+        {
+            Debug.Log("error state");
+        }
+    }
+    public override Structs.AttackAttribute GetAttackAttribute()
+    {
+        if(playerStateNow.ePlayerState == Enums.EPlayerState.Dash)
+        {
+            return (playerStateNow as DollState_dash).GetAttackAttribute();
+        }
+        else if(playerStateNow.ePlayerState == Enums.EPlayerState.Attack)
+        {
+            return (playerStateNow as DollState_attack).GetAttackAttribute();
+        }
+        else if(playerStateNow.ePlayerState == Enums.EPlayerState.Skill_E)
+        {
+            return (playerStateNow as DollState_skill_E).GetAttackAttribute();
+        }
+        else if(playerStateNow.ePlayerState == Enums.EPlayerState.Skill_Q)
+        {
+            return (playerStateNow as DollState_skill_Q).GetAttackAttribute();
+        }
+        else
+        {
+            Debug.Log("error state");
+            return default ;
         }
     }
 }

@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class DollState_dash : PlayerState
 {
+    float remainingTime ;
+    float totalTime ;
+    int comboNum ;
     public DollState_dash(PlayerStateMachine playerStateMachine, Enums.EPlayerState ePlayerState) : base(playerStateMachine, ePlayerState)
     {
     }
@@ -12,9 +15,12 @@ public class DollState_dash : PlayerState
     public override void EnterState()
     {
         base.EnterState();
-        playerStateMachine.player.AnimationBeg_dash();
         isPrepared = false;
+        playerStateMachine.player.AnimationBeg_dash();
         playerStateMachine.player.SetInvisibleBeg_dash(true);
+        remainingTime = (playerStateMachine.player.attribute as Structs.DollAttribute).time_dash;
+        totalTime = (playerStateMachine.player.attribute as Structs.DollAttribute).time_dash;
+        comboNum = 0;
     }
     public override void ExitState()
     {
@@ -25,23 +31,85 @@ public class DollState_dash : PlayerState
     }
     public override void Update()
     {
-        base.Update();
+        if(comboNum == 1)
+        {
+            if(remainingTime > 0)
+            {
+                float k = remainingTime / totalTime;
+                playerStateMachine.player.Move((playerStateMachine.player.attribute as Structs.DollAttribute).velocity_dash * Mathf.Pow(k , 3) * Time.deltaTime);
+                remainingTime -= Time.deltaTime;
+            }
+        }
+        else if(comboNum == 2)
+        {
+            if(remainingTime > 0)
+            {
+                playerStateMachine.player.Move((playerStateMachine.player.attribute as Structs.DollAttribute).velocity_dashAttack1 * remainingTime / totalTime * Time.deltaTime);
+                remainingTime -= Time.deltaTime;
+            }
+            
+            playerStateMachine.player.LockEnemy();
+            playerStateMachine.player.FixForwardDirection_lock(ePlayerState);
+        }
+        else
+        {
+            Vector3 midDirection = InputBuffer.Instance.GetDirection();
+            if(midDirection == Vector3.zero || midDirection.z > 0.9f)
+            {
+                playerStateMachine.player.LockEnemy();
+                playerStateMachine.player.FixForwardDirection_lock(ePlayerState);
+            }
+            else
+            {
+                playerStateMachine.player.FixForwardDirection(midDirection , ePlayerState);
+            }
+        }
+
+        if(playerStateMachine.player.attribute.isBackEnd)
+        {
+            return ;
+        }
+
+        if(isPrepared)
+        {
+            if(InputBuffer.Instance.IsAttack())
+            {
+    // Debug.Log("prepared");
+                isPrepared = false;
+                playerStateMachine.player.AnimationBeg_dash();
+            }
+        }
+
         IPlayerCommand playerCommand = InputBuffer.Instance.GetCommand(Priority.playerState[(int)Enums.EPlayerState.Dash]);
         if(playerCommand != null)
         {
             playerCommand.Execute(playerStateMachine.player);
         }
-        if(isPrepared)
-        {
-            Vector3 direction = InputBuffer.Instance.GetDirection();
-            if(direction != Vector3.zero)
-            {
-                playerStateMachine.ChangeState(playerStateMachine.playerState_run);
-            }
-        }
     }
     public void Prepared()
     {
         isPrepared = true;
+    }
+    public void AddCombo()
+    {
+        comboNum ++;
+        if(comboNum == 1)
+        {
+            remainingTime = (playerStateMachine.player.attribute as Structs.DollAttribute).time_dash;
+            totalTime = (playerStateMachine.player.attribute as Structs.DollAttribute).time_dash;
+        }
+        else
+        {
+            remainingTime = (playerStateMachine.player.attribute as Structs.DollAttribute).time_dashAttack_1;
+            totalTime = (playerStateMachine.player.attribute as Structs.DollAttribute).time_dashAttack_1;
+        }
+
+    }
+    public Structs.AttackAttribute GetAttackAttribute()
+    {
+        Structs.AttackAttribute attackAttribute = new Structs.AttackAttribute();
+        attackAttribute.damage_hp = (playerStateMachine.player.attribute as Structs.DollAttribute).damage_hp_dash[comboNum - 2];
+        attackAttribute.damage_poise = (playerStateMachine.player.attribute as Structs.DollAttribute).damage_poise_dash[comboNum - 2];
+        return attackAttribute;
     }
 }

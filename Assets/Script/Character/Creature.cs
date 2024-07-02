@@ -24,8 +24,9 @@ public class Creature : MonoBehaviour
         myController = GetComponent<CharacterController>();
     }
 
-    public virtual Structs.AttackAttribute BeAttacked(Structs.AttackAttribute attackAttribute , Creature attacker)
+    // public virtual Structs.AttackAttribute BeAttacked(Structs.AttackAttribute attackAttribute , Creature attacker)
+    public virtual void BeAttacked(Structs.AttackAttribute attackAttribute , Creature attacker)
     {
-        return  Structs.attackAttribute_null;
+        // return  Structs.attackAttribute_null;
     }
 }

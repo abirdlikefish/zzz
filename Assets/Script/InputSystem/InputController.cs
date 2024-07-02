@@ -64,15 +64,6 @@ public partial class @InputController: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Defend"",
-                    ""type"": ""Button"",
-                    ""id"": ""73fa0c78-c787-4040-a5b9-b4846d832d70"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Dash"",
                     ""type"": ""Button"",
                     ""id"": ""d031b5a8-c654-433b-b4bf-7306daaff6cc"",
@@ -94,6 +85,15 @@ public partial class @InputController: IInputActionCollection2, IDisposable
                     ""name"": ""Stop"",
                     ""type"": ""Button"",
                     ""id"": ""6d097675-6d17-41e8-ad9d-8edff7525160"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Support"",
+                    ""type"": ""Button"",
+                    ""id"": ""5dc01791-122d-4e58-a8c0-8e0b0030e728"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -191,17 +191,6 @@ public partial class @InputController: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""c9013763-2a8d-41e2-a7f4-ad21123982b7"",
-                    ""path"": ""<Mouse>/rightButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Defend"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""6a5ec0d9-4163-412d-9e5f-074477ae53e2"",
                     ""path"": ""<Keyboard>/leftShift"",
                     ""interactions"": """",
@@ -214,7 +203,7 @@ public partial class @InputController: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""43be050f-c32d-4915-846b-fdeb7b1c48e7"",
-                    ""path"": ""<Keyboard>/space"",
+                    ""path"": ""<Mouse>/rightButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -230,6 +219,17 @@ public partial class @InputController: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Stop"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3d98f9fe-e9d0-4932-8b8d-3801ef99e5a9"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Support"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -272,10 +272,10 @@ public partial class @InputController: IInputActionCollection2, IDisposable
         m_GamePlay_Skill_E = m_GamePlay.FindAction("Skill_E", throwIfNotFound: true);
         m_GamePlay_Skill_Q = m_GamePlay.FindAction("Skill_Q", throwIfNotFound: true);
         m_GamePlay_Attack = m_GamePlay.FindAction("Attack", throwIfNotFound: true);
-        m_GamePlay_Defend = m_GamePlay.FindAction("Defend", throwIfNotFound: true);
         m_GamePlay_Dash = m_GamePlay.FindAction("Dash", throwIfNotFound: true);
         m_GamePlay_ChangeCharacter = m_GamePlay.FindAction("ChangeCharacter", throwIfNotFound: true);
         m_GamePlay_Stop = m_GamePlay.FindAction("Stop", throwIfNotFound: true);
+        m_GamePlay_Support = m_GamePlay.FindAction("Support", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Continue = m_UI.FindAction("Continue", throwIfNotFound: true);
@@ -344,10 +344,10 @@ public partial class @InputController: IInputActionCollection2, IDisposable
     private readonly InputAction m_GamePlay_Skill_E;
     private readonly InputAction m_GamePlay_Skill_Q;
     private readonly InputAction m_GamePlay_Attack;
-    private readonly InputAction m_GamePlay_Defend;
     private readonly InputAction m_GamePlay_Dash;
     private readonly InputAction m_GamePlay_ChangeCharacter;
     private readonly InputAction m_GamePlay_Stop;
+    private readonly InputAction m_GamePlay_Support;
     public struct GamePlayActions
     {
         private @InputController m_Wrapper;
@@ -356,10 +356,10 @@ public partial class @InputController: IInputActionCollection2, IDisposable
         public InputAction @Skill_E => m_Wrapper.m_GamePlay_Skill_E;
         public InputAction @Skill_Q => m_Wrapper.m_GamePlay_Skill_Q;
         public InputAction @Attack => m_Wrapper.m_GamePlay_Attack;
-        public InputAction @Defend => m_Wrapper.m_GamePlay_Defend;
         public InputAction @Dash => m_Wrapper.m_GamePlay_Dash;
         public InputAction @ChangeCharacter => m_Wrapper.m_GamePlay_ChangeCharacter;
         public InputAction @Stop => m_Wrapper.m_GamePlay_Stop;
+        public InputAction @Support => m_Wrapper.m_GamePlay_Support;
         public InputActionMap Get() { return m_Wrapper.m_GamePlay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -381,9 +381,6 @@ public partial class @InputController: IInputActionCollection2, IDisposable
             @Attack.started += instance.OnAttack;
             @Attack.performed += instance.OnAttack;
             @Attack.canceled += instance.OnAttack;
-            @Defend.started += instance.OnDefend;
-            @Defend.performed += instance.OnDefend;
-            @Defend.canceled += instance.OnDefend;
             @Dash.started += instance.OnDash;
             @Dash.performed += instance.OnDash;
             @Dash.canceled += instance.OnDash;
@@ -393,6 +390,9 @@ public partial class @InputController: IInputActionCollection2, IDisposable
             @Stop.started += instance.OnStop;
             @Stop.performed += instance.OnStop;
             @Stop.canceled += instance.OnStop;
+            @Support.started += instance.OnSupport;
+            @Support.performed += instance.OnSupport;
+            @Support.canceled += instance.OnSupport;
         }
 
         private void UnregisterCallbacks(IGamePlayActions instance)
@@ -409,9 +409,6 @@ public partial class @InputController: IInputActionCollection2, IDisposable
             @Attack.started -= instance.OnAttack;
             @Attack.performed -= instance.OnAttack;
             @Attack.canceled -= instance.OnAttack;
-            @Defend.started -= instance.OnDefend;
-            @Defend.performed -= instance.OnDefend;
-            @Defend.canceled -= instance.OnDefend;
             @Dash.started -= instance.OnDash;
             @Dash.performed -= instance.OnDash;
             @Dash.canceled -= instance.OnDash;
@@ -421,6 +418,9 @@ public partial class @InputController: IInputActionCollection2, IDisposable
             @Stop.started -= instance.OnStop;
             @Stop.performed -= instance.OnStop;
             @Stop.canceled -= instance.OnStop;
+            @Support.started -= instance.OnSupport;
+            @Support.performed -= instance.OnSupport;
+            @Support.canceled -= instance.OnSupport;
         }
 
         public void RemoveCallbacks(IGamePlayActions instance)
@@ -490,10 +490,10 @@ public partial class @InputController: IInputActionCollection2, IDisposable
         void OnSkill_E(InputAction.CallbackContext context);
         void OnSkill_Q(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
-        void OnDefend(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
         void OnChangeCharacter(InputAction.CallbackContext context);
         void OnStop(InputAction.CallbackContext context);
+        void OnSupport(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

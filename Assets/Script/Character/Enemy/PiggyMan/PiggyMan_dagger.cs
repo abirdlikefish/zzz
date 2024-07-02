@@ -3,11 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PiggyMan_dagger : Creature 
+public class PiggyMan_dagger : Enemy
 {
-    Structs.Attribute_PiggyMan_dagger attribute ;
+    Structs.PiggyMan_daggerAttribute attribute ;
     Player player ;
     bool isBeAttacked ;
+    bool isAttacking ;
     float currentRotateSpeed ;
     struct BehaviorState 
     {
@@ -35,41 +36,26 @@ public class PiggyMan_dagger : Creature
     protected override void Awake()
     {
         base.Awake();
-        InitAttribute(new Structs.Attribute_PiggyMan_dagger());
-        BTBuilder_piggyMan midBuilder = new BTBuilder_piggyMan();
-        InitBTRoot(midBuilder.Build(this));
-        InitBehaviorState();
         isBeAttacked = false ;
-
-// test -----------------------
-attribute.hp_max = 10 ;
-attribute.hp = 10 ;
-attribute.poise_max = 3 ;
-attribute.poise = 3 ;
-attribute.CD_skill = 10 ;
-attribute.attackAngle = 120 ;
-attribute.attackDistance = 2f ;
-attribute.skillAngle = 180 ;
-attribute.skillDistance = 2f ;
-attribute.damage_hp_attack = 1;
-attribute.damage_poise_attack = 1;
-attribute.damage_hp_skill = 1;
-attribute.damage_poise_skill = 1;
-attribute.runRange = 10 ;
-attribute.time_rotate = 0.5f;
-attribute.speed_run = 3 ;
-attribute.speed_walk = 1 ;
-// ----------------------------
+        isAttacking = false ;
+        InitBTRoot();
+        InitBehaviorState();
+        // Debug.Log("enemy awake");
+#region 
+#endregion
     }
-    public void InitAttribute(Structs.Attribute_PiggyMan_dagger attribute)
+    public override void InitAttribute(Structs.EnemyAttribute attribute)
     {
-        this.attribute = attribute;
+        // Debug.Log("load enemy attribute");
+        this.attribute = attribute as Structs.PiggyMan_daggerAttribute;
     }
-    public void InitBTRoot(BTNode root)
+    // public void InitBTRoot(BTNode root)
+    protected override void InitBTRoot()
     {
-        this.BTroot = root;
+        // this.BTroot = root;
+        this.BTroot = new BTBuilder_piggyMan().Build(this);
     }
-    private void InitBehaviorState()
+    protected override void InitBehaviorState()
     {
         behaviorState = new BehaviorState();
         behaviorState.SetAll(Enums.EEnemyBehaviorState.Waiting);
@@ -85,10 +71,21 @@ attribute.speed_walk = 1 ;
 
     public bool FindPlayer()
     {
-//------------------
-//------------------
-        player = GameObject.Find("Doll").GetComponent<Player>();
-        return player != null ;
+        if(player == null || player.gameObject.activeSelf == false)
+        {
+            GameObject mid = GameObject.FindWithTag("Player");
+            if(mid == null)
+            {
+                Debug.Log("can not find player");
+                return false;
+            }
+            player = mid.GetComponent<Player>();
+        }
+        // else
+        // {
+        //     Debug.Log(player.gameObject.name);
+        // }
+        return player != null && player.gameObject.activeSelf;
     }
 
     #region judge
@@ -106,6 +103,18 @@ attribute.speed_walk = 1 ;
     }
     public bool IfNeedWalkToPlayer()
     {
+        if(player == null)
+        {
+            Debug.Log("Player is null");
+        }
+        // else
+        // {
+        //     Debug.Log(player.name);
+        // }
+        if(attribute == null)
+        {
+            Debug.Log("attribute is null");
+        }
         return (player.transform.position - transform.position).sqrMagnitude > attribute.runRange * attribute.runRange ;
     }
     public bool IfNearPlayer()
@@ -121,6 +130,7 @@ attribute.speed_walk = 1 ;
     #region animation
     public Enums.EBTNodeState AnimationBeg_beAttacked()
     {
+        isAttacking = false ;
         if(behaviorState.beAttacked == Enums.EEnemyBehaviorState.Waiting)
         {
             behaviorState.SetAll(Enums.EEnemyBehaviorState.ForceQuit);
@@ -136,6 +146,7 @@ attribute.speed_walk = 1 ;
     }
     public Enums.EBTNodeState AnimationBeg_run()
     {
+        isAttacking = false ;
         if(behaviorState.run == Enums.EEnemyBehaviorState.Waiting)
         {
             behaviorState.SetAll(Enums.EEnemyBehaviorState.Waiting);
@@ -162,6 +173,7 @@ attribute.speed_walk = 1 ;
     }
     public Enums.EBTNodeState AnimationBeg_walk()
     {
+        isAttacking = false ;
         if(behaviorState.walk == Enums.EEnemyBehaviorState.Waiting)
         {
             behaviorState.SetAll(Enums.EEnemyBehaviorState.Waiting);
@@ -188,6 +200,7 @@ attribute.speed_walk = 1 ;
     }
     public Enums.EBTNodeState AnimationBeg_attack()
     {
+        // isAttacking = false ;
         if(behaviorState.attack == Enums.EEnemyBehaviorState.Waiting)
         {
             behaviorState.SetAll(Enums.EEnemyBehaviorState.Waiting);
@@ -202,6 +215,7 @@ attribute.speed_walk = 1 ;
         }
         else if(behaviorState.attack == Enums.EEnemyBehaviorState.End)
         {
+            // Debug.Log("piggy man attack end");
             // state_attack = Enums.EEnemyBehaviorState.Waiting ;
             behaviorState.SetAll(Enums.EEnemyBehaviorState.Waiting);
             return Enums.EBTNodeState.Success;
@@ -213,6 +227,7 @@ attribute.speed_walk = 1 ;
     }
     public Enums.EBTNodeState AnimationBeg_skillBeg()
     {
+        isAttacking = false ;
         if(behaviorState.skillBeg == Enums.EEnemyBehaviorState.Waiting)
         {
             behaviorState.SetAll(Enums.EEnemyBehaviorState.Waiting);
@@ -238,6 +253,7 @@ attribute.speed_walk = 1 ;
     }
     public Enums.EBTNodeState AnimationBeg_skillOn()
     {
+        // isAttacking = false ;
         if(behaviorState.skillOn == Enums.EEnemyBehaviorState.Waiting)
         {
             behaviorState.SetAll(Enums.EEnemyBehaviorState.Waiting);
@@ -258,11 +274,20 @@ attribute.speed_walk = 1 ;
         }
         else
         {
+
+            float currentAngle = transform.eulerAngles.y;
+            Vector3 directionToTarget = player.transform.position - transform.position;
+            float targetAngle = Mathf.Atan2(directionToTarget.x, directionToTarget.z) * Mathf.Rad2Deg;
+            float smoothAngle = Mathf.SmoothDampAngle(currentAngle, targetAngle, ref currentRotateSpeed, attribute.time_rotate);
+            transform.rotation = Quaternion.Euler(0, smoothAngle, 0);
+            myController.Move(attribute.speed_skill * transform.forward * Time.deltaTime);
+
             return Enums.EBTNodeState.Running;
         }
     }
     public Enums.EBTNodeState AnimationBeg_skillEnd()
     {
+        isAttacking = false ;
         if(behaviorState.skillEnd == Enums.EEnemyBehaviorState.Waiting)
         {
             behaviorState.SetAll(Enums.EEnemyBehaviorState.Waiting);
@@ -293,6 +318,7 @@ attribute.speed_walk = 1 ;
     public void Animator_beAttackedEnd()
     {
         behaviorState.beAttacked = Enums.EEnemyBehaviorState.End ;
+        isBeAttacked = false ;
     }
     public void Animator_attackEnd()
     {
@@ -312,6 +338,7 @@ attribute.speed_walk = 1 ;
     }
     public void Animator_attackDetect()
     {
+        isAttacking = false ;
         Collider[] colliders = Physics.OverlapSphere(transform.position, attribute.attackDistance);
         foreach(Collider collider in colliders)
         {
@@ -322,11 +349,12 @@ attribute.speed_walk = 1 ;
             if(angle > attribute.attackAngle/2) continue;
             Structs.AttackAttribute attackAttribute = new Structs.AttackAttribute(attribute.damage_hp_attack , attribute.damage_poise_attack , directionToCollider.normalized);
             collider.GetComponent<Creature>().BeAttacked( attackAttribute, this);
-            Debug.Log("attack on");
+            // Debug.Log("attack on");
         }
     }
     public void Animator_skillDetect()
     {
+        isAttacking = false ;
         Collider[] colliders = Physics.OverlapSphere(transform.position, attribute.skillDistance);
         foreach(Collider collider in colliders)
         {
@@ -337,22 +365,56 @@ attribute.speed_walk = 1 ;
             if(angle > attribute.skillAngle/2) continue;
             Structs.AttackAttribute attackAttribute = new Structs.AttackAttribute(attribute.damage_hp_skill , attribute.damage_poise_skill , directionToCollider.normalized);
             collider.GetComponent<Creature>().BeAttacked( attackAttribute, this);
-            Debug.Log("skill on");
+            // Debug.Log("skill on");
         }
+    }
+
+    public void Animator_isParry()
+    {
+        isAttacking = true ;
     }
 #endregion
 
-    #region 
-    public override Structs.AttackAttribute BeAttacked(Structs.AttackAttribute attackAttribute, Creature attacker)
+#region fight
+    // public override Structs.AttackAttribute BeAttacked(Structs.AttackAttribute attackAttribute, Creature attacker)
+    public override void BeAttacked(Structs.AttackAttribute attackAttribute, Creature attacker)
     {
         attribute.hp -= attackAttribute.damage_hp ;
-        attribute.poise -= attackAttribute.damage_pose;
+        attribute.poise -= attackAttribute.damage_poise;
         if(attribute.poise <= 0)
         {
             attribute.poise = attribute.poise_max;
             isBeAttacked = true ;
         }
-        return Structs.attackAttribute_null;
+        // return Structs.attackAttribute_null;
+    }
+
+    public override bool IsParry(Vector3 position)
+    {
+        // Debug.Log("parry :" + isAttacking);
+        if(isAttacking)
+        {
+            // return true ;
+            // if((position - transform.position).sqrMagnitude > attribute.attackDistance * attribute.attackDistance * 4)
+            //     return false ;
+// return true ;
+            Vector3 directionToCollider = position - transform.position;
+            directionToCollider.y = 0;
+            float angle = Vector3.Angle(transform.forward, directionToCollider);
+            // Debug.Log(angle);
+            // if(angle < attribute.attackAngle/2)
+            if(angle < 90)
+            {
+                return true;
+            }
+        }
+
+        return false ;
+    }
+    public override Vector3 GetParryPosition(Vector3 position)
+    {
+        Vector3 direction = position - transform.position;
+        return direction.normalized * attribute.attackDistance * 0.9f + transform.position ;
     }
     #endregion
 

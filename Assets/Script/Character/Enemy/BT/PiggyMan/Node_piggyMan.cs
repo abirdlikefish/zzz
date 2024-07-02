@@ -2,20 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// public class Node_piggyMan : BTNode
-// {
-//     public override Enums.EBTNodeState Execute()
-//     {
-//         Debug.Log("error : Node_piggyMan is used");
-//         return Enums.EBTNodeState.Failure ;
-//     }
-//     PiggyMan_dagger piggyMan_dagger;
-//     public void Init(PiggyMan_dagger piggyMan_dagger)
-//     {
-//         this.piggyMan_dagger = piggyMan_dagger;
-//     }
-// }
-
 public class Node_piggyMan_ifBeAttacked : Node_creature
 {
     public Node_piggyMan_ifBeAttacked(Creature creature) : base(creature){}

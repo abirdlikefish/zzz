@@ -10,7 +10,9 @@ public static class Enums
         Run ,
         Walk ,
         Attack ,
-        Defend ,
+        // Defend ,
+        Parry ,
+        Support ,
         Skill_E ,
         Skill_Q ,
         Dash ,
@@ -25,8 +27,9 @@ public static class Enums
         Attack ,    //p2
         Skill_E,    //p3
         Skill_Q ,   //p4
-        Defend ,    //p5
+        // Defend ,    //p5
         Dash ,      //p5
+        Support ,    //p6
         ChangeCharacter ,   //p10
     }
 

@@ -10,8 +10,10 @@ public class DollState_beAttacked : PlayerState
 
     public override void EnterState()
     {
+        // Debug.Log("dollstate beg: " + playerStateMachine.player.transform.eulerAngles.y);
         base.EnterState();
         playerStateMachine.player.AnimationBeg_beAttacked();
+        // Debug.Log("dollstate on: " + playerStateMachine.player.transform.eulerAngles.y);
     }
 
     public override void ExitState()
