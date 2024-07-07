@@ -13,19 +13,20 @@ MonoBehaviour:
   m_Name: PiggyMan_daggerAttributeData
   m_EditorClassIdentifier: 
   ID: 0
-  hp: 10
-  hp_max: 10
+  hp: 15
+  hp_max: 15
   poise: 5
   poise_max: 5
   speed_run: 3
   speed_walk: 1
   time_rotate: 0.5
+  maxFindDistance: 30
   attackDistance: 2
   attackAngle: 120
   skillDistance: 2
   skillAngle: 180
   speed_skill: 1
-  runRange: 25
+  runRange: 15
   CD_skill: 10
   CD_begTime: -1
   damage_hp_attack: 1

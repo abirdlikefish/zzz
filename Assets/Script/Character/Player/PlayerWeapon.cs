@@ -45,7 +45,7 @@ public class PlayerWeapon : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         father.WeaponCollide(other);
-        Debug.Log("attack " + other.name);
+        // Debug.Log("attack " + other.name);
     }
 
     public void WeaponOn()

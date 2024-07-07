@@ -60,6 +60,8 @@ public static class Structs
         public float freezeFrameSpeed { get ; set ; }
         public float freezeFrameTime { get ; set ; }
         public float freezeTimeTime { get ; set ; }
+        public float damage_hp_parry { get ; set ; }
+        public float damage_poise_parry { get ; set ; }
     }
 
     public class DollAttribute : PlayerAttribute
@@ -92,7 +94,6 @@ public static class Structs
     #endregion
 
 #region enemyAttribute
-    // public class EnemyAttribute : IEnemyAttribute
     public class EnemyAttribute : CreatureAttribute
     {
         public int ID { get ; set ; }
@@ -103,7 +104,7 @@ public static class Structs
         public float speed_run { get ; set ; }
         public float speed_walk { get ; set ; }
         public float time_rotate { get ; set ; }
-
+        public float maxFindDistance { get ; set ; }
     }
     public class PiggyMan_daggerAttribute : EnemyAttribute
     {
@@ -119,6 +120,15 @@ public static class Structs
         public float damage_poise_attack { get ; set ; }
         public float damage_hp_skill { get ; set ; }
         public float damage_poise_skill { get ; set ; }
+    }
+    public class PiggyMan_bowAttribute : EnemyAttribute
+    {
+        public float attackDistance { get ; set ; }
+        public float runRange { get ; set ; }
+        public float CD_skill { get ; set ; }
+        public float CD_begTime { get ; set ; }
+        public float damage_hp_attack { get ; set ; }
+        public float damage_poise_attack { get ; set ; }
     }
 #endregion
 

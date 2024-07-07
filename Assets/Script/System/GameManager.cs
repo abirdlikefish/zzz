@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+// using System.Numerics;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -12,7 +13,6 @@ public class GameManager : MonoBehaviour
     public AttributeData[] playerAttributeData;
     public GameObject[] enemyPrefab;
     public AttributeData[] enemyAttributeData;
-    // protected DollAttributeData dollAttributeData ;
 
 #region init
     void InitSO()
@@ -26,7 +26,8 @@ public class GameManager : MonoBehaviour
         }
         enemyAttributeData = new AttributeData[5];
         enemyAttributeData[0] = Resources.Load<PiggyMan_daggerAttributeData>("SO/PiggyMan_daggerAttributeData");
-        if(enemyAttributeData[0] == null)
+        enemyAttributeData[1] = Resources.Load<PiggyMan_bowAttributeData>("SO/PiggyMan_bowAttributeData");
+        if(enemyAttributeData[1] == null)
         {
             Debug.Log("AttributeData load failed");
         }
@@ -42,36 +43,39 @@ public class GameManager : MonoBehaviour
         }
         enemyPrefab = new GameObject[5];
         enemyPrefab[0] = Resources.Load<GameObject>("Prefab/PiggyMan_dagger");
-        if(enemyPrefab[0] == null)
+        enemyPrefab[1] = Resources.Load<GameObject>("Prefab/PiggyMan_bow");
+        if(enemyPrefab[1] == null)
         {
             Debug.Log("Prefab load failed");
         }
     }
     void InitGameStateMachine()
     {
-        // gameStateMachine = new GameStateMachine(this , Enums.EGameState.StartMenu);
-        gameStateMachine = new GameStateMachine(this , Enums.EGameState.LevelOn);
+        gameStateMachine = new GameStateMachine(this , Enums.EGameState.StartMenu);
+        // gameStateMachine = new GameStateMachine(this , Enums.EGameState.LevelOn);
     }
     void InitTeam()
     {
         team = new Team();
         Structs.CreatureAttribute playerAttribute1 = playerAttributeData[0].CreateAttribute();
-        // Structs.CreatureAttribute playerAttribute1 = playerAttributeData[1].CreateAttribute();
         Structs.CreatureAttribute playerAttribute2 = playerAttributeData[1].CreateAttribute();
         Structs.CreatureAttribute playerAttribute3 = playerAttributeData[1].CreateAttribute();
         team.AddPlayer(playerPrefab[0] , playerAttribute1 as Structs.PlayerAttribute , 0);
-        // team.AddPlayer(playerPrefab[1] , playerAttribute1 as Structs.PlayerAttribute , 0);
         team.AddPlayer(playerPrefab[1] , playerAttribute2 as Structs.PlayerAttribute , 1);
         team.AddPlayer(playerPrefab[1] , playerAttribute3 as Structs.PlayerAttribute , 2);
         #region test
             team.AddPlayerSO(playerAttributeData[0] , 0);
-            // team.AddPlayerSO(playerAttributeData[1] , 0);
             team.AddPlayerSO(playerAttributeData[1] , 1);
             team.AddPlayerSO(playerAttributeData[1] , 2);
         #endregion
 
         team_enemy = new Team_enemy(this);
-        team_enemy.AddEnemy(0 , 1);
+        team_enemy.SetPosition(0,new Vector3(53 , 5 , 63));
+        team_enemy.SetPosition(1,new Vector3(76 , 5 , 65));
+        team_enemy.SetPosition(2,new Vector3(59 , 5 , 84));
+        team_enemy.SetPosition(3,new Vector3(63 , 5 , 42));
+        // team_enemy.AddEnemy(0 ,0 , 1);
+        // team_enemy.AddEnemy(0 ,1 , 1);
     }
 #endregion
 
@@ -94,9 +98,14 @@ public class GameManager : MonoBehaviour
 #endregion
     void Awake()
     {
+        // Debug.Log("game manager awake");
         InitSO();
         InitPrefab();
         InitTeam();
+    }
+    void Start()
+    {
+        // Debug.Log("game manager start");
         InitGameStateMachine();
     }
 }

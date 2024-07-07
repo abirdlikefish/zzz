@@ -37,6 +37,8 @@ public class BigAttributeData : AttributeData
     public Vector3 velocity_skill_Q ;
     public float time_dashAttack_1;
     public Vector3 velocity_dashAttack1 ;
+    public float damage_hp_parry ;
+    public float damage_poise_parry ;
     public float damage_hp_skill_E ;
     public float damage_poise_skill_E ;
     public float damage_hp_skill_Q ;
@@ -79,6 +81,8 @@ public class BigAttributeData : AttributeData
             velocity_skill_Q = velocity_skill_Q,
             time_dashAttack_1 = time_dashAttack_1,
             velocity_dashAttack1 = velocity_dashAttack1,
+            damage_hp_parry = damage_hp_parry,
+            damage_poise_parry = damage_poise_parry,
             damage_hp_skill_E = damage_hp_skill_E,
             damage_poise_skill_E = damage_poise_skill_E,
             damage_hp_skill_Q = damage_hp_skill_Q,
@@ -117,6 +121,8 @@ public class BigAttributeData : AttributeData
         attribute.velocity_skill_Q= velocity_skill_Q;
         attribute.time_dashAttack_1 = time_dashAttack_1;
         attribute.velocity_dashAttack1 = velocity_dashAttack1;
+        attribute.damage_hp_parry = damage_hp_parry;
+        attribute.damage_poise_parry = damage_poise_parry;
         attribute.damage_hp_skill_E = damage_hp_skill_E;
         attribute.damage_poise_skill_E = damage_poise_skill_E;
         attribute.damage_hp_skill_Q = damage_hp_skill_Q;

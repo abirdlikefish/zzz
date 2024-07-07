@@ -39,24 +39,26 @@ MonoBehaviour:
   freezeTimeTime: 0.2
   prepareTime_dash: 0
   damage_hp_attack:
-  - 1
-  - 1
-  - 1
+  - 3
+  - 3
+  - 3
   damage_poise_attack:
-  - 1
-  - 1
-  - 1
+  - 3
+  - 3
+  - 3
   time_skill_Q: 4
   velocity_skill_Q: {x: 0, y: 0, z: 2}
   time_dashAttack_1: 0.6
   velocity_dashAttack1: {x: 0, y: 0, z: 10}
-  damage_hp_skill_E: 1
+  damage_hp_parry: 10
+  damage_poise_parry: 10
+  damage_hp_skill_E: 3
   damage_poise_skill_E: 3
-  damage_hp_skill_Q: 1
+  damage_hp_skill_Q: 3
   damage_poise_skill_Q: 3
   damage_hp_dash:
-  - 0
-  - 0
+  - 3
+  - 3
   damage_poise_dash:
-  - 0
-  - 0
+  - 3
+  - 3

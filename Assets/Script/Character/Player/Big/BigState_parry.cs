@@ -30,11 +30,23 @@ public class BigState_parry : PlayerState
 
     public override void Update()
     {
-        // if(playerStateMachine.player.name == "Player_0")
-        // {
-        //     Debug.Log("Player_0 : isBackEnd = " + playerStateMachine.player.attribute.isBackEnd);
-        // }
-        if(comboNum == 2)   return ;
+        if(comboNum == 2)   
+        {
+            IPlayerCommand playerCommand ;
+            if(isFree)
+            {
+                playerCommand = InputBuffer.Instance.GetCommand(0);
+            }
+            else
+            {
+                playerCommand = InputBuffer.Instance.GetCommand(Priority.playerState[(int)Enums.EPlayerState.Parry]);
+            }
+            if(playerCommand != null)
+            {
+                playerCommand.Execute(playerStateMachine.player);
+            }
+            return ;
+        }
         remainingTime -= Time.deltaTime;
         if(comboNum == 0)
         {
@@ -63,36 +75,7 @@ public class BigState_parry : PlayerState
             }
         }
 
-        // if(comboNum == 1 && remainingTime <= 0)
-        // {
-        //     playerStateMachine.BackToIdle();
-        //     return;
-        // }
-        // if(comboNum == 0)   return ;
-        // if(comboNum == 1)
-        // {
-        //     float k = remainingTime / totalTime;
-        //     playerStateMachine.player.Move((playerStateMachine.player.attribute as Structs.BigAttribute).velocity_parry * Mathf.Pow(k , 5) * Time.deltaTime);
-        //     if(k < 0.5f)
-        //     {
-        //         if(InputBuffer.Instance.IsAttack())
-        //         {
-        //             playerStateMachine.player.AnimationBeg_parry();
-        //             comboNum = 2;
-        //         }
-        //     }
-        // }
-        // if(playerStateMachine.player.attribute.isBackEnd)
-        // {
-        //     Debug.Log("error in backend state");
-        // }
-
-
-        // IPlayerCommand playerCommand = InputBuffer.Instance.GetCommand(Priority.playerState[(int)Enums.EPlayerState.Parry]);
-        // if(playerCommand != null)
-        // {
-        //     playerCommand.Execute(playerStateMachine.player);
-        // }
+        
     }
     // public void AddCombo()
     // {
@@ -110,5 +93,13 @@ public class BigState_parry : PlayerState
             remainingTime = totalTime;
             playerStateMachine.player.AnimationBeg_parry();
         }
+    }
+
+    public Structs.AttackAttribute GetAttackAttribute()
+    {
+        Structs.AttackAttribute attackAttribute = new Structs.AttackAttribute();
+        attackAttribute.damage_hp = (playerStateMachine.player.attribute as Structs.BigAttribute).damage_hp_parry;
+        attackAttribute.damage_poise = (playerStateMachine.player.attribute as Structs.BigAttribute).damage_poise_parry;
+        return attackAttribute;
     }
 }

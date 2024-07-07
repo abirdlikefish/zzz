@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Team 
 {
@@ -10,7 +11,6 @@ public class Team
     Structs.PlayerAttribute[] playerAttributes;
     AttributeData[] attributeDatas ;
     private int currentPlayerID ;
-    // public Enemy targetEnemy ;
     public Team()
     {
         players = new Player[3];
@@ -44,14 +44,18 @@ public class Team
         for(int i = 0 ; i < 2 ; i ++)
         {
             GameObject mid = GameObject.Instantiate(playerPrefabs[i]);
+    // Debug.Log("instantiate player");
+    // if(mid == null)
+    // {
+    //     Debug.Log("prefab is null");
+    // }
             mid.name = "Player_" + i;
             players[i] = mid.GetComponent<Player>();
             players[i].InitPlayerStateMachine(Enums.EPlayerState.BackEnd);
             players[i].InitPlayerAttribute(playerAttributes[i]);
             players[i].InitTeam(this);
         }
-        players[0].transform.position = new Vector3(60 , 0 , 60);
-        // FindEnemy();
+        players[0].transform.position = new Vector3(18 , 5 , 66);
         ChangeCharacter(Enums.EPlayerState.Idle , players[0].transform);
     }
 
@@ -59,20 +63,11 @@ public class Team
     {
         currentPlayerID ++;
         if(currentPlayerID == 2)    currentPlayerID = 0;
-        // if(IsParry())
-        // {
-        //     Debug.Log("parrying");
-        //     players[currentPlayerID].Appear(Enums.EPlayerState.Parry , midTransform);
-        // }
-        // else
-        // {
-            players[currentPlayerID].Appear(eState , midTransform);
-        // }
+        players[currentPlayerID].Appear(eState , midTransform);
         cameraController.SetTarget(players[currentPlayerID].transform);
     }
     public void ChangeCharacter_Parry(Vector3 position , Vector3 direction)
     {
-        // Debug.Log("parrying");
         currentPlayerID ++;
         if(currentPlayerID == 2)    currentPlayerID = 0;
         players[currentPlayerID].Appear(position , direction);

@@ -82,18 +82,18 @@ public partial class @InputController: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Stop"",
+                    ""name"": ""Support"",
                     ""type"": ""Button"",
-                    ""id"": ""6d097675-6d17-41e8-ad9d-8edff7525160"",
+                    ""id"": ""5dc01791-122d-4e58-a8c0-8e0b0030e728"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Support"",
+                    ""name"": ""Stop"",
                     ""type"": ""Button"",
-                    ""id"": ""5dc01791-122d-4e58-a8c0-8e0b0030e728"",
+                    ""id"": ""6d097675-6d17-41e8-ad9d-8edff7525160"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -213,6 +213,17 @@ public partial class @InputController: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""3d98f9fe-e9d0-4932-8b8d-3801ef99e5a9"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Support"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""31b11108-6044-4605-b324-4b9bc5f9a01a"",
                     ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
@@ -221,15 +232,52 @@ public partial class @InputController: IInputActionCollection2, IDisposable
                     ""action"": ""Stop"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""StopMenu"",
+            ""id"": ""4e9d4589-e688-4efe-8210-88d7a115a270"",
+            ""actions"": [
+                {
+                    ""name"": ""Return"",
+                    ""type"": ""Button"",
+                    ""id"": ""f6b8454f-019e-484b-ae29-94ad88b62631"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Continue"",
+                    ""type"": ""Button"",
+                    ""id"": ""c22afe41-31bc-4e33-97cb-13a86dee8500"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
                     ""name"": """",
-                    ""id"": ""3d98f9fe-e9d0-4932-8b8d-3801ef99e5a9"",
-                    ""path"": ""<Keyboard>/space"",
+                    ""id"": ""f661c59b-3a05-4c20-925b-5e582b63ecb3"",
+                    ""path"": ""<Keyboard>/r"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Support"",
+                    ""action"": ""Return"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ab02064c-fc4f-4bc0-a2a3-b6dbfb5af8dd"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Continue"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -240,9 +288,18 @@ public partial class @InputController: IInputActionCollection2, IDisposable
             ""id"": ""2a6069cf-d696-4136-a324-59949eed5b93"",
             ""actions"": [
                 {
-                    ""name"": ""Continue"",
+                    ""name"": ""BeginGame"",
                     ""type"": ""Button"",
-                    ""id"": ""c6ce5809-7d91-4045-952f-279177353bc3"",
+                    ""id"": ""4dd5e908-7b50-46a1-afbc-a2323627cf5e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ExitGame"",
+                    ""type"": ""Button"",
+                    ""id"": ""a297a028-61fa-47c4-b493-f51d635df260"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -252,12 +309,91 @@ public partial class @InputController: IInputActionCollection2, IDisposable
             ""bindings"": [
                 {
                     ""name"": """",
-                    ""id"": ""7e1e41ea-6fcf-48bd-a91a-a329aca65a91"",
+                    ""id"": ""f0fc6223-5547-4a50-b649-5a23b69f8762"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""BeginGame"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e7def027-8903-4e7e-8d69-2efd33d395d0"",
                     ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Continue"",
+                    ""action"": ""ExitGame"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""SelectMenu"",
+            ""id"": ""15765fcc-94c8-4ea3-a720-c2d67803d791"",
+            ""actions"": [
+                {
+                    ""name"": ""AddPiggyMan_dagger"",
+                    ""type"": ""Button"",
+                    ""id"": ""3171167c-59a1-4ab0-ab51-70852ad218c1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""AddPiggyMan_bow"",
+                    ""type"": ""Button"",
+                    ""id"": ""3e5cf42e-c353-4fbc-a9de-94bec1e469d4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""LoadGame"",
+                    ""type"": ""Button"",
+                    ""id"": ""c20054ae-753c-40c1-8365-859ec074e7ac"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""7eaf7a38-545a-42cf-89b5-8d31eaeed65e"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AddPiggyMan_dagger"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""21d98e2b-d0ab-4914-af98-f615748c8bcb"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AddPiggyMan_bow"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5978bae1-939b-47e7-9a79-0445f4f60b74"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LoadGame"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -274,11 +410,21 @@ public partial class @InputController: IInputActionCollection2, IDisposable
         m_GamePlay_Attack = m_GamePlay.FindAction("Attack", throwIfNotFound: true);
         m_GamePlay_Dash = m_GamePlay.FindAction("Dash", throwIfNotFound: true);
         m_GamePlay_ChangeCharacter = m_GamePlay.FindAction("ChangeCharacter", throwIfNotFound: true);
-        m_GamePlay_Stop = m_GamePlay.FindAction("Stop", throwIfNotFound: true);
         m_GamePlay_Support = m_GamePlay.FindAction("Support", throwIfNotFound: true);
+        m_GamePlay_Stop = m_GamePlay.FindAction("Stop", throwIfNotFound: true);
+        // StopMenu
+        m_StopMenu = asset.FindActionMap("StopMenu", throwIfNotFound: true);
+        m_StopMenu_Return = m_StopMenu.FindAction("Return", throwIfNotFound: true);
+        m_StopMenu_Continue = m_StopMenu.FindAction("Continue", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
-        m_UI_Continue = m_UI.FindAction("Continue", throwIfNotFound: true);
+        m_UI_BeginGame = m_UI.FindAction("BeginGame", throwIfNotFound: true);
+        m_UI_ExitGame = m_UI.FindAction("ExitGame", throwIfNotFound: true);
+        // SelectMenu
+        m_SelectMenu = asset.FindActionMap("SelectMenu", throwIfNotFound: true);
+        m_SelectMenu_AddPiggyMan_dagger = m_SelectMenu.FindAction("AddPiggyMan_dagger", throwIfNotFound: true);
+        m_SelectMenu_AddPiggyMan_bow = m_SelectMenu.FindAction("AddPiggyMan_bow", throwIfNotFound: true);
+        m_SelectMenu_LoadGame = m_SelectMenu.FindAction("LoadGame", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -346,8 +492,8 @@ public partial class @InputController: IInputActionCollection2, IDisposable
     private readonly InputAction m_GamePlay_Attack;
     private readonly InputAction m_GamePlay_Dash;
     private readonly InputAction m_GamePlay_ChangeCharacter;
-    private readonly InputAction m_GamePlay_Stop;
     private readonly InputAction m_GamePlay_Support;
+    private readonly InputAction m_GamePlay_Stop;
     public struct GamePlayActions
     {
         private @InputController m_Wrapper;
@@ -358,8 +504,8 @@ public partial class @InputController: IInputActionCollection2, IDisposable
         public InputAction @Attack => m_Wrapper.m_GamePlay_Attack;
         public InputAction @Dash => m_Wrapper.m_GamePlay_Dash;
         public InputAction @ChangeCharacter => m_Wrapper.m_GamePlay_ChangeCharacter;
-        public InputAction @Stop => m_Wrapper.m_GamePlay_Stop;
         public InputAction @Support => m_Wrapper.m_GamePlay_Support;
+        public InputAction @Stop => m_Wrapper.m_GamePlay_Stop;
         public InputActionMap Get() { return m_Wrapper.m_GamePlay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -387,12 +533,12 @@ public partial class @InputController: IInputActionCollection2, IDisposable
             @ChangeCharacter.started += instance.OnChangeCharacter;
             @ChangeCharacter.performed += instance.OnChangeCharacter;
             @ChangeCharacter.canceled += instance.OnChangeCharacter;
-            @Stop.started += instance.OnStop;
-            @Stop.performed += instance.OnStop;
-            @Stop.canceled += instance.OnStop;
             @Support.started += instance.OnSupport;
             @Support.performed += instance.OnSupport;
             @Support.canceled += instance.OnSupport;
+            @Stop.started += instance.OnStop;
+            @Stop.performed += instance.OnStop;
+            @Stop.canceled += instance.OnStop;
         }
 
         private void UnregisterCallbacks(IGamePlayActions instance)
@@ -415,12 +561,12 @@ public partial class @InputController: IInputActionCollection2, IDisposable
             @ChangeCharacter.started -= instance.OnChangeCharacter;
             @ChangeCharacter.performed -= instance.OnChangeCharacter;
             @ChangeCharacter.canceled -= instance.OnChangeCharacter;
-            @Stop.started -= instance.OnStop;
-            @Stop.performed -= instance.OnStop;
-            @Stop.canceled -= instance.OnStop;
             @Support.started -= instance.OnSupport;
             @Support.performed -= instance.OnSupport;
             @Support.canceled -= instance.OnSupport;
+            @Stop.started -= instance.OnStop;
+            @Stop.performed -= instance.OnStop;
+            @Stop.canceled -= instance.OnStop;
         }
 
         public void RemoveCallbacks(IGamePlayActions instance)
@@ -439,15 +585,71 @@ public partial class @InputController: IInputActionCollection2, IDisposable
     }
     public GamePlayActions @GamePlay => new GamePlayActions(this);
 
+    // StopMenu
+    private readonly InputActionMap m_StopMenu;
+    private List<IStopMenuActions> m_StopMenuActionsCallbackInterfaces = new List<IStopMenuActions>();
+    private readonly InputAction m_StopMenu_Return;
+    private readonly InputAction m_StopMenu_Continue;
+    public struct StopMenuActions
+    {
+        private @InputController m_Wrapper;
+        public StopMenuActions(@InputController wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Return => m_Wrapper.m_StopMenu_Return;
+        public InputAction @Continue => m_Wrapper.m_StopMenu_Continue;
+        public InputActionMap Get() { return m_Wrapper.m_StopMenu; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(StopMenuActions set) { return set.Get(); }
+        public void AddCallbacks(IStopMenuActions instance)
+        {
+            if (instance == null || m_Wrapper.m_StopMenuActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_StopMenuActionsCallbackInterfaces.Add(instance);
+            @Return.started += instance.OnReturn;
+            @Return.performed += instance.OnReturn;
+            @Return.canceled += instance.OnReturn;
+            @Continue.started += instance.OnContinue;
+            @Continue.performed += instance.OnContinue;
+            @Continue.canceled += instance.OnContinue;
+        }
+
+        private void UnregisterCallbacks(IStopMenuActions instance)
+        {
+            @Return.started -= instance.OnReturn;
+            @Return.performed -= instance.OnReturn;
+            @Return.canceled -= instance.OnReturn;
+            @Continue.started -= instance.OnContinue;
+            @Continue.performed -= instance.OnContinue;
+            @Continue.canceled -= instance.OnContinue;
+        }
+
+        public void RemoveCallbacks(IStopMenuActions instance)
+        {
+            if (m_Wrapper.m_StopMenuActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IStopMenuActions instance)
+        {
+            foreach (var item in m_Wrapper.m_StopMenuActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_StopMenuActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public StopMenuActions @StopMenu => new StopMenuActions(this);
+
     // UI
     private readonly InputActionMap m_UI;
     private List<IUIActions> m_UIActionsCallbackInterfaces = new List<IUIActions>();
-    private readonly InputAction m_UI_Continue;
+    private readonly InputAction m_UI_BeginGame;
+    private readonly InputAction m_UI_ExitGame;
     public struct UIActions
     {
         private @InputController m_Wrapper;
         public UIActions(@InputController wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Continue => m_Wrapper.m_UI_Continue;
+        public InputAction @BeginGame => m_Wrapper.m_UI_BeginGame;
+        public InputAction @ExitGame => m_Wrapper.m_UI_ExitGame;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -457,16 +659,22 @@ public partial class @InputController: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_UIActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_UIActionsCallbackInterfaces.Add(instance);
-            @Continue.started += instance.OnContinue;
-            @Continue.performed += instance.OnContinue;
-            @Continue.canceled += instance.OnContinue;
+            @BeginGame.started += instance.OnBeginGame;
+            @BeginGame.performed += instance.OnBeginGame;
+            @BeginGame.canceled += instance.OnBeginGame;
+            @ExitGame.started += instance.OnExitGame;
+            @ExitGame.performed += instance.OnExitGame;
+            @ExitGame.canceled += instance.OnExitGame;
         }
 
         private void UnregisterCallbacks(IUIActions instance)
         {
-            @Continue.started -= instance.OnContinue;
-            @Continue.performed -= instance.OnContinue;
-            @Continue.canceled -= instance.OnContinue;
+            @BeginGame.started -= instance.OnBeginGame;
+            @BeginGame.performed -= instance.OnBeginGame;
+            @BeginGame.canceled -= instance.OnBeginGame;
+            @ExitGame.started -= instance.OnExitGame;
+            @ExitGame.performed -= instance.OnExitGame;
+            @ExitGame.canceled -= instance.OnExitGame;
         }
 
         public void RemoveCallbacks(IUIActions instance)
@@ -484,6 +692,68 @@ public partial class @InputController: IInputActionCollection2, IDisposable
         }
     }
     public UIActions @UI => new UIActions(this);
+
+    // SelectMenu
+    private readonly InputActionMap m_SelectMenu;
+    private List<ISelectMenuActions> m_SelectMenuActionsCallbackInterfaces = new List<ISelectMenuActions>();
+    private readonly InputAction m_SelectMenu_AddPiggyMan_dagger;
+    private readonly InputAction m_SelectMenu_AddPiggyMan_bow;
+    private readonly InputAction m_SelectMenu_LoadGame;
+    public struct SelectMenuActions
+    {
+        private @InputController m_Wrapper;
+        public SelectMenuActions(@InputController wrapper) { m_Wrapper = wrapper; }
+        public InputAction @AddPiggyMan_dagger => m_Wrapper.m_SelectMenu_AddPiggyMan_dagger;
+        public InputAction @AddPiggyMan_bow => m_Wrapper.m_SelectMenu_AddPiggyMan_bow;
+        public InputAction @LoadGame => m_Wrapper.m_SelectMenu_LoadGame;
+        public InputActionMap Get() { return m_Wrapper.m_SelectMenu; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(SelectMenuActions set) { return set.Get(); }
+        public void AddCallbacks(ISelectMenuActions instance)
+        {
+            if (instance == null || m_Wrapper.m_SelectMenuActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_SelectMenuActionsCallbackInterfaces.Add(instance);
+            @AddPiggyMan_dagger.started += instance.OnAddPiggyMan_dagger;
+            @AddPiggyMan_dagger.performed += instance.OnAddPiggyMan_dagger;
+            @AddPiggyMan_dagger.canceled += instance.OnAddPiggyMan_dagger;
+            @AddPiggyMan_bow.started += instance.OnAddPiggyMan_bow;
+            @AddPiggyMan_bow.performed += instance.OnAddPiggyMan_bow;
+            @AddPiggyMan_bow.canceled += instance.OnAddPiggyMan_bow;
+            @LoadGame.started += instance.OnLoadGame;
+            @LoadGame.performed += instance.OnLoadGame;
+            @LoadGame.canceled += instance.OnLoadGame;
+        }
+
+        private void UnregisterCallbacks(ISelectMenuActions instance)
+        {
+            @AddPiggyMan_dagger.started -= instance.OnAddPiggyMan_dagger;
+            @AddPiggyMan_dagger.performed -= instance.OnAddPiggyMan_dagger;
+            @AddPiggyMan_dagger.canceled -= instance.OnAddPiggyMan_dagger;
+            @AddPiggyMan_bow.started -= instance.OnAddPiggyMan_bow;
+            @AddPiggyMan_bow.performed -= instance.OnAddPiggyMan_bow;
+            @AddPiggyMan_bow.canceled -= instance.OnAddPiggyMan_bow;
+            @LoadGame.started -= instance.OnLoadGame;
+            @LoadGame.performed -= instance.OnLoadGame;
+            @LoadGame.canceled -= instance.OnLoadGame;
+        }
+
+        public void RemoveCallbacks(ISelectMenuActions instance)
+        {
+            if (m_Wrapper.m_SelectMenuActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(ISelectMenuActions instance)
+        {
+            foreach (var item in m_Wrapper.m_SelectMenuActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_SelectMenuActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public SelectMenuActions @SelectMenu => new SelectMenuActions(this);
     public interface IGamePlayActions
     {
         void OnMove(InputAction.CallbackContext context);
@@ -492,11 +762,23 @@ public partial class @InputController: IInputActionCollection2, IDisposable
         void OnAttack(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
         void OnChangeCharacter(InputAction.CallbackContext context);
-        void OnStop(InputAction.CallbackContext context);
         void OnSupport(InputAction.CallbackContext context);
+        void OnStop(InputAction.CallbackContext context);
+    }
+    public interface IStopMenuActions
+    {
+        void OnReturn(InputAction.CallbackContext context);
+        void OnContinue(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
-        void OnContinue(InputAction.CallbackContext context);
+        void OnBeginGame(InputAction.CallbackContext context);
+        void OnExitGame(InputAction.CallbackContext context);
+    }
+    public interface ISelectMenuActions
+    {
+        void OnAddPiggyMan_dagger(InputAction.CallbackContext context);
+        void OnAddPiggyMan_bow(InputAction.CallbackContext context);
+        void OnLoadGame(InputAction.CallbackContext context);
     }
 }

@@ -7,8 +7,10 @@ public class PiggyMan_dagger : Enemy
 {
     Structs.PiggyMan_daggerAttribute attribute ;
     Player player ;
+    Team_enemy team ;
     bool isBeAttacked ;
     bool isAttacking ;
+    bool isDie ;
     float currentRotateSpeed ;
     struct BehaviorState 
     {
@@ -19,6 +21,7 @@ public class PiggyMan_dagger : Enemy
         public Enums.EEnemyBehaviorState skillBeg ;
         public Enums.EEnemyBehaviorState skillOn ;
         public Enums.EEnemyBehaviorState skillEnd ;
+        public Enums.EEnemyBehaviorState idle ;
         public void SetAll(Enums.EEnemyBehaviorState state)
         {
             beAttacked = state;
@@ -28,6 +31,7 @@ public class PiggyMan_dagger : Enemy
             skillBeg = state;
             skillOn = state;
             skillEnd = state;
+            idle = state ;
         }
     }
     BehaviorState behaviorState ;
@@ -38,22 +42,19 @@ public class PiggyMan_dagger : Enemy
         base.Awake();
         isBeAttacked = false ;
         isAttacking = false ;
+        isDie = false ;
         InitBTRoot();
         InitBehaviorState();
         // Debug.Log("enemy awake");
-#region 
-#endregion
     }
-    public override void InitAttribute(Structs.EnemyAttribute attribute)
+    public override void InitAttribute(Structs.EnemyAttribute attribute , Team_enemy team)
     {
-        // Debug.Log("load enemy attribute");
         this.attribute = attribute as Structs.PiggyMan_daggerAttribute;
+        this.team = team ;
     }
-    // public void InitBTRoot(BTNode root)
     protected override void InitBTRoot()
     {
-        // this.BTroot = root;
-        this.BTroot = new BTBuilder_piggyMan().Build(this);
+        this.BTroot = new BTBuilder_piggyMan_dagger().Build(this);
     }
     protected override void InitBehaviorState()
     {
@@ -67,6 +68,7 @@ public class PiggyMan_dagger : Enemy
     protected override void Update() 
     {
         BTroot.Execute();
+        myController.Move(Vector3.down * Time.deltaTime * 10);
     }
 
     public bool FindPlayer()
@@ -78,6 +80,10 @@ public class PiggyMan_dagger : Enemy
             {
                 Debug.Log("can not find player");
                 return false;
+            }
+            if((mid.transform.position - transform.position).sqrMagnitude > attribute.maxFindDistance * attribute.maxFindDistance)
+            {
+                return false ;
             }
             player = mid.GetComponent<Player>();
         }
@@ -128,6 +134,25 @@ public class PiggyMan_dagger : Enemy
     #endregion
 
     #region animation
+    public Enums.EBTNodeState AnimationBeg_die()
+    {
+        if(isDie)
+        {
+            return Enums.EBTNodeState.Success ;
+        }
+
+        if(attribute.hp > 0)
+        {
+            return Enums.EBTNodeState.Failure;
+        }
+        else
+        {
+            isAttacking = false ;
+            isDie = true ;
+            myAnimator.SetBool("Trigger_die" , true);
+            return Enums.EBTNodeState.Success;
+        }
+    }
     public Enums.EBTNodeState AnimationBeg_beAttacked()
     {
         isAttacking = false ;
@@ -222,6 +247,11 @@ public class PiggyMan_dagger : Enemy
         }
         else
         {
+            float currentAngle = transform.eulerAngles.y;
+            Vector3 directionToTarget = player.transform.position - transform.position;
+            float targetAngle = Mathf.Atan2(directionToTarget.x, directionToTarget.z) * Mathf.Rad2Deg;
+            float smoothAngle = Mathf.SmoothDampAngle(currentAngle, targetAngle, ref currentRotateSpeed, attribute.time_rotate);
+            transform.rotation = Quaternion.Euler(0, smoothAngle, 0);
             return Enums.EBTNodeState.Running;
         }
     }
@@ -311,10 +341,40 @@ public class PiggyMan_dagger : Enemy
             return Enums.EBTNodeState.Running;
         }
     }
+    public Enums.EBTNodeState AnimationBeg_idle()
+    {
+        isAttacking = false ;
+        if(behaviorState.idle == Enums.EEnemyBehaviorState.Waiting)
+        {
+            behaviorState.SetAll(Enums.EEnemyBehaviorState.Waiting);
+            myAnimator.SetBool("Trigger_idle" , true);
+            behaviorState.idle = Enums.EEnemyBehaviorState.Doing ;
+            return Enums.EBTNodeState.Running;
+        }
+        else if(behaviorState.idle == Enums.EEnemyBehaviorState.ForceQuit)
+        {
+            behaviorState.idle = Enums.EEnemyBehaviorState.Waiting;
+            return Enums.EBTNodeState.Failure;
+        }
+        else if(behaviorState.idle == Enums.EEnemyBehaviorState.End)
+        {
+            behaviorState.SetAll(Enums.EEnemyBehaviorState.Waiting);
+            return Enums.EBTNodeState.Success;
+        }
+        else
+        {
+            return Enums.EBTNodeState.Running;
+        }
+    }
     #endregion
 #endregion
 
 #region animator
+    public void Animator_die()
+    {
+        team.EnemyDie();
+        Destroy(gameObject);
+    }
     public void Animator_beAttackedEnd()
     {
         behaviorState.beAttacked = Enums.EEnemyBehaviorState.End ;

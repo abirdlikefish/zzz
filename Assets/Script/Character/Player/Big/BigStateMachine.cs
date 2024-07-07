@@ -108,6 +108,10 @@ public class BigStateMachine : PlayerStateMachine
         {
             return (playerStateNow as BigState_skill_Q).GetAttackAttribute();
         }
+        else if(playerStateNow.ePlayerState == Enums.EPlayerState.Parry)
+        {
+            return (playerStateNow as BigState_parry).GetAttackAttribute();
+        }
         else
         {
             Debug.Log("error state");

@@ -14,6 +14,7 @@ public class PiggyMan_daggerAttributeData : AttributeData
     public float speed_run ;
     public float speed_walk ;
     public float time_rotate ;
+    public float maxFindDistance ;
     public float attackDistance ;
     public float attackAngle ;
     public float skillDistance ;
@@ -38,6 +39,7 @@ public class PiggyMan_daggerAttributeData : AttributeData
             speed_run = speed_run ,
             speed_walk = speed_walk ,
             time_rotate = time_rotate ,
+            maxFindDistance = maxFindDistance ,
             attackDistance = attackDistance ,
             attackAngle = attackAngle ,
             skillDistance = skillDistance ,
@@ -61,6 +63,7 @@ public class PiggyMan_daggerAttributeData : AttributeData
         attribute.speed_run = speed_run ;
         attribute.speed_walk = speed_walk ;
         attribute.time_rotate = time_rotate ;
+        attribute.maxFindDistance = maxFindDistance ;
         attribute.attackDistance = attackDistance ;
         attribute.attackAngle = attackAngle ;
         attribute.skillDistance = skillDistance ;

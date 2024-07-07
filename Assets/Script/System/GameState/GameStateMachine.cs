@@ -1,13 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameStateMachine 
 {
     public GameState gameStateNow;
+    public GameState gameStateNext ;
     public GameManager gameManager;
 
-#region define gamestate
+#region define game state
     private GameState gameState_levelOn ;
     private GameState gameState_levelSelection ;
     private GameState gameState_startMenu ;
@@ -23,18 +25,18 @@ public class GameStateMachine
 
         if(eGameState == Enums.EGameState.StartMenu)
         {
-            gameStateNow = gameState_startMenu;
-            gameStateNow.EnterState();
+            SceneManager.LoadScene("Start");
+            gameStateNext = gameState_startMenu;
         }
         else if(eGameState == Enums.EGameState.LevelSelection)
         {
-            gameStateNow = gameState_levelSelection;
-            gameStateNow.EnterState();
+            SceneManager.LoadScene("LevelSelection");
+            gameStateNext = gameState_levelSelection;
         }
         else if(eGameState == Enums.EGameState.LevelOn)
         {
-            gameStateNow = gameState_levelOn;
-            gameStateNow.EnterState();
+            SceneManager.LoadScene("Level_forest");
+            gameStateNext = gameState_levelOn;
         }
         else
         {
@@ -44,27 +46,35 @@ public class GameStateMachine
 #endregion
 
 #region change state
-    private void changeGameState(GameState gameState)
-    {
-        gameStateNow.ExitState();
-        gameStateNow = gameState;
-        gameStateNow.EnterState();
-    }
     public void changeGameStateToLevelOn()
     {
-        changeGameState(gameState_levelOn);
+        gameStateNow.ExitState();
+        SceneManager.LoadScene("Level_forest");
+        gameStateNext = gameState_levelOn;
     }
     public void changeGameStateToLevelSelection()
     {
-        changeGameState(gameState_levelSelection);
+        gameStateNow.ExitState();
+        SceneManager.LoadScene("LevelSelection");
+        gameStateNext = gameState_levelSelection;
     }
     public void changeGameStateToStartMenu()
     {
-        changeGameState(gameState_startMenu);
+        gameStateNow.ExitState();
+        SceneManager.LoadScene("Start");
+        gameStateNext = gameState_startMenu;
+        // Debug.Log("change gameState to start menu");
     }
 #endregion
     public void Update()
     {
+        if(gameStateNext  != null)
+        {
+            gameStateNow = gameStateNext;
+            gameStateNow.EnterState();
+            gameStateNext = null;
+            return ;
+        }
         gameStateNow.Update();
     }
 }

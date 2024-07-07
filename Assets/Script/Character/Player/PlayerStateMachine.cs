@@ -8,6 +8,10 @@ public class PlayerStateMachine
     public PlayerState playerStateNow { get; set; }
     public Player player { get; set; }
     public bool isComboContinue { get; set; }
+    public virtual void Update()
+    {
+        playerStateNow.Update();
+    }
     
 #region define playerState
     public PlayerState playerState_idle;
@@ -16,12 +20,12 @@ public class PlayerStateMachine
     public PlayerState playerState_attack ;
     public PlayerState playerState_skill_E;
     public PlayerState playerState_skill_Q;
-    // public PlayerState playerState_defend;
     public PlayerState playerState_parry;
     public PlayerState playerState_dash;
     public PlayerState playerState_beAttacked ;
     public PlayerState playerState_backEnd ;
 #endregion
+
     public virtual void Init(Player player , Enums.EPlayerState eState)
     {
         isComboContinue = false ;
@@ -54,12 +58,6 @@ public class PlayerStateMachine
         playerStateNow = state;
         playerStateNow.EnterState();
     }
-
-    public virtual void Update()
-    {
-        playerStateNow.Update();
-    }
-
     public virtual void BackToIdle()
     {
         if(player.attribute.isBackEnd)
@@ -91,5 +89,9 @@ public class PlayerStateMachine
     public virtual Structs.AttackAttribute GetAttackAttribute()
     {
         return default;
+    }
+    public virtual void Free(bool flag)
+    {
+        playerStateNow.Free(flag);
     }
 }

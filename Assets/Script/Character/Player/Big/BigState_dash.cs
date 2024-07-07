@@ -81,7 +81,17 @@ public class BigState_dash : PlayerState
             }
         }
 
-        IPlayerCommand playerCommand = InputBuffer.Instance.GetCommand(Priority.playerState[(int)Enums.EPlayerState.Dash]);
+        IPlayerCommand playerCommand ;
+        if(isFree)
+        {
+            playerCommand = InputBuffer.Instance.GetCommand(0);
+        }
+        else
+        {
+            playerCommand = InputBuffer.Instance.GetCommand(Priority.playerState[(int)Enums.EPlayerState.Dash]);
+        }
+
+        // IPlayerCommand playerCommand = InputBuffer.Instance.GetCommand(Priority.playerState[(int)Enums.EPlayerState.Dash]);
         if(playerCommand != null)
         {
             playerCommand.Execute(playerStateMachine.player);

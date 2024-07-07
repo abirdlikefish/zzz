@@ -26,9 +26,7 @@ public class BigState_attack : PlayerState
         base.ExitState();
         _comboNum = 0 ;
         _isFinished = false ;
-        // _needComboNum = 1;
         playerStateMachine.player.AnimationEnd_attack();
-        // playerStateMachine.player.SetAnimatorSpeed(1);
     }
 
     public override void Update()
@@ -42,7 +40,6 @@ public class BigState_attack : PlayerState
         if(midDirection == Vector3.zero || midDirection.z > 0.9f)
         {
             playerStateMachine.player.LockEnemy();
-            // playerStateMachine.player.FixForwardDirection(midDirection);
             playerStateMachine.player.FixForwardDirection_lock(ePlayerState);
         }
         else
@@ -58,7 +55,15 @@ public class BigState_attack : PlayerState
                 playerStateMachine.player.AnimationBeg_attack();
             }
         }
-        IPlayerCommand playerCommand = InputBuffer.Instance.GetCommand(Priority.playerState[(int)Enums.EPlayerState.Attack]);
+        IPlayerCommand playerCommand ;
+        if(isFree)
+        {
+            playerCommand = InputBuffer.Instance.GetCommand(0);
+        }
+        else
+        {
+            playerCommand = InputBuffer.Instance.GetCommand(Priority.playerState[(int)Enums.EPlayerState.Attack]);
+        }
         if(playerCommand != null)
         {
             playerCommand.Execute(playerStateMachine.player);
@@ -77,9 +82,6 @@ public class BigState_attack : PlayerState
 
     public Structs.AttackAttribute GetAttackAttribute()
     {
-        // playerStateMachine.player.SetAnimatorSpeed(playerStateMachine.player.attribute.freezeFrameSpeed);
-        // StartCoroutine
-
         Structs.AttackAttribute attackAttribute = new Structs.AttackAttribute();
         attackAttribute.damage_hp = playerStateMachine.player.attribute.damage_hp_attack[_comboNum - 1];
         attackAttribute.damage_poise = playerStateMachine.player.attribute.damage_poise_attack[_comboNum - 1];

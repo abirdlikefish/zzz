@@ -7,6 +7,7 @@ public class PlayerState
 {
     public PlayerStateMachine playerStateMachine;
     public Enums.EPlayerState ePlayerState{ get; set; }
+    protected bool isFree ;
 
     public PlayerState(PlayerStateMachine playerStateMachine , Enums.EPlayerState ePlayerState)
     {
@@ -24,5 +25,9 @@ public class PlayerState
 
     public virtual void Update()
     {
+    }
+    public virtual void Free(bool flag)
+    {
+        isFree = flag ;
     }
 }

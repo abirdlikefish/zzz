@@ -30,7 +30,7 @@ public class DollState_parry : PlayerState
 
     public override void Update()
     {
-        Debug.Log(comboNum);
+        // Debug.Log(comboNum);
         // if(playerStateMachine.player.name == "Player_0")
         // {
         //     Debug.Log("Player_0 : isBackEnd = " + playerStateMachine.player.attribute.isBackEnd);
@@ -58,7 +58,7 @@ public class DollState_parry : PlayerState
             {
                 if(InputBuffer.Instance.IsAttack())
                 {
-                    Debug.Log("comboNum -> 2 ");
+                    // Debug.Log("comboNum -> 2 ");
                     playerStateMachine.player.AnimationBeg_parry();
                     comboNum = 2;
                 }
@@ -95,6 +95,14 @@ public class DollState_parry : PlayerState
             remainingTime = totalTime;
             playerStateMachine.player.AnimationBeg_parry();
         }
+    }
+
+    public Structs.AttackAttribute GetAttackAttribute()
+    {
+        Structs.AttackAttribute attackAttribute = new Structs.AttackAttribute();
+        attackAttribute.damage_hp = (playerStateMachine.player.attribute as Structs.DollAttribute).damage_hp_parry;
+        attackAttribute.damage_poise = (playerStateMachine.player.attribute as Structs.DollAttribute).damage_poise_parry;
+        return attackAttribute;
     }
 
 }

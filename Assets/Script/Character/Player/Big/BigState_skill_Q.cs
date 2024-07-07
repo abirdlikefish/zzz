@@ -63,7 +63,18 @@ public class BigState_skill_Q : PlayerState
             playerStateMachine.player.FixForwardDirection(midDirection , ePlayerState);
         }
 
-        IPlayerCommand playerCommand = InputBuffer.Instance.GetCommand(Priority.playerState[(int)Enums.EPlayerState.Skill_Q]);
+        
+        IPlayerCommand playerCommand ;
+        if(isFree)
+        {
+            playerCommand = InputBuffer.Instance.GetCommand(0);
+        }
+        else
+        {
+            playerCommand = InputBuffer.Instance.GetCommand(Priority.playerState[(int)Enums.EPlayerState.Skill_Q]);
+        }
+
+        // IPlayerCommand playerCommand = InputBuffer.Instance.GetCommand(Priority.playerState[(int)Enums.EPlayerState.Skill_Q]);
         if(playerCommand != null)
         {
             playerCommand.Execute(playerStateMachine.player);

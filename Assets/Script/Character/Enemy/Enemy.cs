@@ -8,7 +8,7 @@ public class Enemy : Creature
     {
         return false;
     }
-    public virtual void InitAttribute(Structs.EnemyAttribute attribute)
+    public virtual void InitAttribute(Structs.EnemyAttribute attribute , Team_enemy team)
     {
     }
     // public void InitBTRoot(BTNode root)

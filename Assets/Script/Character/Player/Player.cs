@@ -14,8 +14,13 @@ public class Player : Creature
     protected PlayerWeapon weapon;
     protected Enemy lockedEnemy;
     protected Vector3 beAttackedDirection ;
-#region attribute
+    protected override void Update()
+    {
+        playerStateMachine.Update();
+    }
+    public PlayerStateMachine playerStateMachine ;
 
+#region attribute
     public Structs.PlayerAttribute attribute ;
     public void Move(Vector3 x)
     {
@@ -64,30 +69,21 @@ public class Player : Creature
     protected float currentRotateSpeed_lock;
     public virtual void FixForwardDirection_lock(Enums.EPlayerState state)
     {
-        if(lockedEnemy == null)
-        {
-            Debug.Log("locked enemy is null");
-            return;
-        } 
+        if(lockedEnemy == null) return; 
         
         Vector3 targetDirection = lockedEnemy.transform.position - transform.position;
         float currentAngle = transform.eulerAngles.y;
         float targetAngle = Mathf.Atan2(targetDirection.x, targetDirection.z) * Mathf.Rad2Deg;
-        
-        
+                
         if(state == Enums.EPlayerState.Run)
         {
             float smoothAngle = Mathf.SmoothDampAngle(currentAngle, targetAngle, ref currentRotateSpeed_lock, attribute.time_rotate_run);
             transform.rotation = Quaternion.Euler(0, smoothAngle, 0);
-            // float smoothAngle = Mathf.SmoothDampAngle(currentAngle, targetAngle, ref currentRotateSpeed, attribute.time_rotate_run);
-            // transform.rotation = Quaternion.Euler(0, smoothAngle, 0);
         }
         else if(state == Enums.EPlayerState.Attack)
         {
             float smoothAngle = Mathf.SmoothDampAngle(currentAngle, targetAngle, ref currentRotateSpeed_lock, attribute.time_rotate_attack);
             transform.rotation = Quaternion.Euler(0, smoothAngle, 0);
-            // float smoothAngle = Mathf.SmoothDampAngle(currentAngle, targetAngle, ref currentRotateSpeed, attribute.time_rotate_attack);
-            // transform.rotation = Quaternion.Euler(0, smoothAngle, 0);
         }
         else if(state == Enums.EPlayerState.Skill_E)
         {
@@ -137,19 +133,7 @@ public class Player : Creature
 #endregion 
 
 
-    protected override void Update()
-    {
-        base.Update();
-        playerStateMachine.Update();
-    }
-    public PlayerStateMachine playerStateMachine ;
-
 #region Init
-    protected override void Awake()
-    {
-        base.Awake();
-
-    }
     public virtual void InitPlayerStateMachine(Enums.EPlayerState estate)
     {
     }
@@ -160,7 +144,6 @@ public class Player : Creature
     public virtual void InitPlayerAttribute(Structs.PlayerAttribute attribute)
     {
         this.attribute = attribute;
-        // Debug.Log("load player attribute");
     }
 #endregion
 
@@ -183,11 +166,8 @@ public class Player : Creature
     #region attack
     public virtual bool Animator_attackBeg()
     {
-// Debug.Log("Animator_attackBeg");
         if(playerStateMachine.playerStateNow.ePlayerState != Enums.EPlayerState.Attack) return false;
         myAnimator.SetBool("IsAttack", true);
-        // myAnimator.SetBool("IsAttackFinished" , false);
-        // playerStateMachine.AddCombo();
         playerStateMachine.isComboContinue = true ;
         playerStateMachine.AddCombo(Enums.EPlayerState.Attack);
         return true;
@@ -196,10 +176,8 @@ public class Player : Creature
     {
         if(playerStateMachine.playerStateNow.ePlayerState != Enums.EPlayerState.Attack) return false;
         myAnimator.SetBool("Trigger_attack", false);
-        // myAnimator.SetBool("IsAttackFinished" , true);
         playerStateMachine.isComboContinue = false ;
         playerStateMachine.Finished(Enums.EPlayerState.Attack);
-        // playerStateMachine.AddNeedCombo();
         return true;
     }
     public virtual bool  Animator_attackEnd()
@@ -232,14 +210,9 @@ public class Player : Creature
     public virtual bool  Animator_skill_EEnd()
     {
         if(playerStateMachine.playerStateNow.ePlayerState != Enums.EPlayerState.Skill_E) return false;
-        // if( playerStateMachine.IsComboContinue() == false)
-        // {
-            // playerStateMachine.BackToIdle();
-        // }
         playerStateMachine.BackToIdle();
         return true;
     }
-
     #endregion skill_E
 
     #region skill_Q
@@ -289,7 +262,6 @@ public class Player : Creature
         if(playerStateMachine.playerStateNow.ePlayerState != Enums.EPlayerState.Dash) return false;
         playerStateMachine.isComboContinue = false ;
         playerStateMachine.Prepared(Enums.EPlayerState.Dash);
-        // Debug.Log("dash finish");
         return true;
     }
     public virtual bool  Animator_dashEnd()
@@ -300,33 +272,18 @@ public class Player : Creature
         playerStateMachine.BackToIdle();
         return true;
     }
-
-    // public virtual bool Animator_dashFinished()
-    // {
-    //     if(playerStateMachine.playerStateNow.ePlayerState != Enums.EPlayerState.Dash) return false;
-    //     myAnimator.SetBool("Trigger_dash", false);
-    //     myAnimator.SetBool("IsDash", false);
-    //     playerStateMachine.Prepared(Enums.EPlayerState.Dash);
-    //     return true;
-    // }
     #endregion
 
     #region beAttacked
     public virtual bool Animator_beAttackedBeg()
     {
-        // Debug.Log("animator beg: " + transform.eulerAngles.y);
         weapon.WeaponOff();
-        // myController.enabled = false;
-        // FixForwardDirectionNow(Vector3.forward);
-        // myController.enabled = true;
         return true ;
     }
     public virtual bool Animator_beAttackedEnd()
     {
-        // Debug.Log("animator end: " + transform.eulerAngles.y);
         if(playerStateMachine.playerStateNow.ePlayerState != Enums.EPlayerState.BeAttacked) return false;
         playerStateMachine.BackToIdle();
-        // Debug.Log("beAttacked end");
         return true;
     }
     #endregion beAttacked
@@ -342,6 +299,13 @@ public class Player : Creature
     }
     #endregion
 
+    #region free
+    public virtual void Animator_free()
+    {
+        playerStateMachine.Free(true);
+    }
+    #endregion
+
 #endregion animator function
 
 
@@ -350,7 +314,6 @@ public class Player : Creature
     #region idle
     public void AnimationBeg_idle()
     {
-        // myAnimator.SetTrigger(AnimatorParameters.Trigger_idle);
         myAnimator.SetTrigger("Trigger_idle");
     }
     public void AnimationEnd_idle()
@@ -363,16 +326,12 @@ public class Player : Creature
     #region  run
     public void AnimationBeg_run()
     {
-        // myAnimator.SetFloat("Speed", 1f);
         myAnimator.SetTrigger("Trigger_run");
     }
     public void AnimationEnd_run()
     {
-        // myAnimator.SetFloat("Speed", 0f);
         myAnimator.SetBool("Trigger_run", false);
         myAnimator.SetBool("IsRun" , false);
-        // myAnimator.SetBool("Trigger_runEnd" , true);
-        // Debug.Log("run end");
     }
     public void Animation_setRunSpeed()
     {
@@ -383,13 +342,12 @@ public class Player : Creature
     #region attack
     public void AnimationBeg_attack()
     {
-        // myAnimator.SetTrigger("Trigger_attack");
+        playerStateMachine.Free(false);
         myAnimator.SetBool("Trigger_attack" , true);
     }
     public void AnimationEnd_attack()
     {
         myAnimator.SetBool("IsAttack", false);
-        // myAnimator.SetBool("IsAttackFinished", false);
         myAnimator.SetBool("Trigger_attack", false);
     }
     #endregion attack
@@ -397,21 +355,20 @@ public class Player : Creature
     #region skill_E
     public void AnimationBeg_skill_E()
     {
+        playerStateMachine.Free(false);
         myAnimator.SetBool("Trigger_skill_E" , true);
     }
     public void AnimationEnd_skill_E()
     {
         myAnimator.SetBool("IsSkill_E" , false);
         myAnimator.SetBool("Trigger_skill_E" , false);
-        // myAnimator.SetBool("IsSkill_EFinished" , false);
-        // myAnimator.SetBool("IsSkill_EPrepared" , false);
     }
-    
     #endregion skill_E
 
     #region skill_Q
     public void AnimationBeg_skill_Q()
     {
+        playerStateMachine.Free(false);
         myAnimator.SetBool("Trigger_skill_Q" , true);
     }
     public void AnimationEnd_skill_Q()
@@ -424,19 +381,20 @@ public class Player : Creature
     #region parry
     public void AnimationBeg_parry()
     {
+        playerStateMachine.Free(false);
         myAnimator.SetBool("Trigger_parry" , true);
     }
     public void AnimationEnd_parry()
     {
         myAnimator.SetBool("IsParry" , false);
         myAnimator.SetBool("Trigger_parry" , false);
-    }
-    
+    }    
     #endregion
 
     #region dash
     public void AnimationBeg_dash()
     {
+        playerStateMachine.Free(false);
         myAnimator.SetBool("Trigger_dash" , true);
     }
     public void AnimationEnd_dash()
@@ -468,46 +426,30 @@ public class Player : Creature
 #region playerCommand function
     public void BegMove(Vector3 direction)
     {
-        // ForwardDirection = direction;
-        // FixForwardDirection(direction);
-        
         playerStateMachine.ChangeState(playerStateMachine.playerState_run);
     }
-
     public void BegAttack(Vector3 direction)
     {
-        // ForwardDirection = direction;
-        // FixForwardDirection(direction);
-
         playerStateMachine.ChangeState(playerStateMachine.playerState_attack);
     }
 
     public void BegSkill_E(Vector3 direction)
     {
-        // ForwardDirection = direction;
-        // FixForwardDirection(direction);
-
         playerStateMachine.ChangeState(playerStateMachine.playerState_skill_E);
     }
     public void BegSkill_Q(Vector3 direction)
     {
-        // ForwardDirection = direction;
-        // FixForwardDirection(direction);
-
         playerStateMachine.ChangeState(playerStateMachine.playerState_skill_Q);
     }
     public void BegDash(Vector3 direction)
     {
-        // ForwardDirection = direction;
-        // FixForwardDirection(direction);
-
         playerStateMachine.ChangeState(playerStateMachine.playerState_dash);
     }
-
     public void BegChangeCharacter(Vector3 direction)
     {
         if(team.CanChangeCharacter() == false)  return ;
         attribute.isInvisible = true ;
+        myAnimator.speed = 1;
         Enemy enemy = JudgeParry();
         if(enemy == null)
         {
@@ -525,12 +467,15 @@ public class Player : Creature
             {
                 playerStateMachine.ChangeState(playerStateMachine.playerState_backEnd);
             }
+            else if(playerStateMachine.playerStateNow.ePlayerState == Enums.EPlayerState.BeAttacked )
+            {
+                playerStateMachine.ChangeState(playerStateMachine.playerState_backEnd);
+            }
             else
             {
                 attribute.isBackEnd = true ;
             }
         }
-
         else
         {
             team.ChangeCharacter_Parry(enemy.GetParryPosition(transform.position) , enemy.transform.position - transform.position);
@@ -543,7 +488,6 @@ public class Player : Creature
 
 
 #region fight
-    // public override Structs.AttackAttribute BeAttacked(Structs.AttackAttribute attackAttribute, Creature attacker)
     public override void BeAttacked(Structs.AttackAttribute attackAttribute, Creature attacker)
     {
         if(playerStateMachine.playerStateNow.ePlayerState == Enums.EPlayerState.Parry)
@@ -553,21 +497,17 @@ public class Player : Creature
         }
         if(IsInvisible())
         {
-            // return Structs.attackAttribute_null ;
             return ;
         }
         else if(IsInvisible_dash())
         {
-            // return Structs.attackAttribute_null ;
             return ;
         }
         playerStateMachine.ChangeState(playerStateMachine.playerState_beAttacked);
         beAttackedDirection = attackAttribute.direction;
         beAttackedDirection.y = 0;
         beAttackedDirection = beAttackedDirection.normalized;
-        // myController.Move(beAttackedDirection * 0.1f);
         StartCoroutine(BeAttackedMove(beAttackedDirection , 0.5f));
-        // return Structs.attackAttribute_null ;
         return ;
     }
     protected IEnumerator BeAttackedMove(Vector3 direction , float time)
@@ -578,21 +518,18 @@ public class Player : Creature
             time -= Time.deltaTime;
             yield return null;
         }
-
     }
     protected virtual void HitEffect(Vector3 position)
     {
-        VFX.Instance.HitEffect(position);
+        VFX.Instance.HitEffect(position , 0);
         CameraShake.Instance.Shake_light();
         StartCoroutine(FreezeFrame());
-        // Sound.Instance.Sword_light();
     }
     public virtual void ParryEffect()
     {
         CameraShake.Instance.Shake_heavy();
         StartCoroutine(FreezeTime());
         Sound.Instance.Sword_collide();
-        // position = transform.position + transform.forward + Vector3.up;
     }
     public virtual void WeaponCollide(Collider collider)
     {
@@ -605,10 +542,10 @@ public class Player : Creature
         collider.GetComponent<Enemy>().BeAttacked(attackAttribute , this);
         Vector3 mid = collider.ClosestPoint(transform.position);
         HitEffect(mid);
-
     }
     protected IEnumerator FreezeTime()
     {
+        myAnimator.speed = 1;
         Time.timeScale = 0.1f;
         yield return new WaitForSecondsRealtime(attribute.freezeTimeTime);
         Time.timeScale = 1;
@@ -616,7 +553,7 @@ public class Player : Creature
     protected IEnumerator FreezeFrame()
     {
         myAnimator.speed = attribute.freezeFrameSpeed;
-        yield return new WaitForSeconds(attribute.freezeFrameTime);
+        yield return new WaitForSecondsRealtime(attribute.freezeFrameTime);
         myAnimator.speed = 1;
     }
     public virtual void LockEnemy()
@@ -655,10 +592,8 @@ public class Player : Creature
         foreach(Collider collider in colliders)
         {
             if(collider.tag != "Enemy") continue;
-        // Debug.Log("finding enemy");
             if(collider.GetComponent<Enemy>().IsParry(transform.position) )
             {
-        // Debug.Log("judge parry succeeded");
                 return collider.GetComponent<Enemy>();
             }
         }
@@ -673,10 +608,9 @@ public class Player : Creature
 
         myController.enabled = false;
         transform.rotation = midTransform.rotation;
-        transform.position = midTransform.position + transform.forward * -1 + transform.right * -1 ;
+        transform.position = midTransform.position + transform.forward * -1 + transform.right ;
         myController.enabled = true;
         playerStateMachine.ChangeState(playerStateMachine.playerState_run);
-        // playerStateMachine.ChangeState(playerStateMachine.playerState_dash);
         return;
 
         if(eState == Enums.EPlayerState.Idle)
@@ -713,6 +647,8 @@ public class Player : Creature
             Debug.Log("error: Unknown state : " + eState);
         }
     }
+
+    //parry
     public virtual void Appear(Vector3 position , Vector3 direction)
     {
         attribute.isInvisible = true ;
@@ -722,22 +658,18 @@ public class Player : Creature
         transform.LookAt(position + direction);
         myController.enabled = true;
         playerStateMachine.ChangeState(playerStateMachine.playerState_parry);
-        Debug.Log("parry!!!");
         StartCoroutine(PullCloseCamera(25 , 20f , 50));
     }
     
-
     IEnumerator PullCamera(float beg, float end, float speed)
     {
         while(beg - end > 0.01)
         {
             beg = Mathf.Lerp(beg, end, speed * Time.deltaTime);
             team.cameraController.SetFOV(beg);
-            // camera.m_Lens.FieldOfView = beg;
             yield return null;
         }
         team.cameraController.SetFOV(end);
-        // camera.m_Lens.FieldOfView = end;
     }
 
     IEnumerator PushCamera(float beg, float end, float speed)
@@ -745,11 +677,9 @@ public class Player : Creature
         while(beg < end)
         {
             beg += speed * Time.deltaTime;
-            // camera.m_Lens.FieldOfView = beg;
             team.cameraController.SetFOV(beg);
             yield return null;
         }
-        // camera.m_Lens.FieldOfView = end;
         team.cameraController.SetFOV(end);
     }
     IEnumerator PullCloseCamera(float targetFov , float speed1 , float speed2)
